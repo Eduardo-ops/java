@@ -1,0 +1,10 @@
+package com.domain.projetoyoutube.model;
+
+public class Video {
+
+	private String titulo;
+	private int avaliacao;
+	private int visualizacoes;
+	private int curtidas;
+	private String reproduzindo;
+}

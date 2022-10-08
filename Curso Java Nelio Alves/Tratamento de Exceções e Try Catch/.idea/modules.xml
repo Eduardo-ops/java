@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Tratamento de Exceções e Try Catch.iml" filepath="$PROJECT_DIR$/.idea/Tratamento de Exceções e Try Catch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/excecoestrycatch/excecoestrycatch.iml" filepath="$PROJECT_DIR$/excecoestrycatch/excecoestrycatch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tratamentodeexcecoes/tratamentodeexcecoes.iml" filepath="$PROJECT_DIR$/tratamentodeexcecoes/tratamentodeexcecoes.iml" />
+    </modules>
+  </component>
+</project>

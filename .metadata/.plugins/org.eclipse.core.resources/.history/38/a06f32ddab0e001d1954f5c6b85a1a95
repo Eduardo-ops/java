@@ -1,0 +1,21 @@
+package com.domain.projetoyoutube.main;
+
+import com.domain.projetoyoutube.model.Video;
+
+public class ProjetoYoutubeAplication {
+
+	public static void main(String[] args) {
+
+		Video[] video = new Video[6];
+
+		video[0] = new Video("Aula de variaveis");
+		video[1] = new Video("Aula de Estrutura condicional");
+		video[2] = new Video("Aula de estrutura de controle");
+		video[3] = new Video("Aula de vetores");
+		video[4] = new Video("Aula de Matrizes");
+		video[5] = new Video("Aula de POO");
+		
+		
+	}
+
+}

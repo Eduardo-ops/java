@@ -1,0 +1,36 @@
+package com.domain.projetoyoutube.model;
+
+public class Usuario extends Pessoa {
+
+	private String login;
+	private int toAssistido;
+	
+	
+
+	public Usuario(String nome, int idade, String sexo, String login, int toAssistido) {
+		super(nome, idade, sexo);
+		this.login = login;
+		this.toAssistido = toAssistido;
+	}
+
+	public void viuMaisUm() {
+
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public int getToAssistido() {
+		return toAssistido;
+	}
+
+	public void setToAssistido(int toAssistido) {
+		this.toAssistido = toAssistido;
+	}
+
+}

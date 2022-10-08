@@ -1,0 +1,11 @@
+package com.domain.projetoyoutube.model;
+
+public class Usuario extends Pessoa{
+
+	private boolean login;
+	private boolean toAssistindo;
+
+	public void viuMaisUm() {
+
+	}
+}

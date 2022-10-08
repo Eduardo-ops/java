@@ -1,0 +1,5 @@
+package com.domain.projetoyoutube.controller;
+
+public interface AcoesVideo {
+
+}

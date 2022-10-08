@@ -1,0 +1,5 @@
+package com.domain.projetoyoutube.model;
+
+public class Video {
+
+}
