@@ -1,5 +1,7 @@
 package tratamentodeexcecoes.aula07.exerciciodefixacao.model.entities;
 
+import tratamentodeexcecoes.aula07.exerciciodefixacao.model.exceptions.DomainAccountException;
+
 public class Account {
 
     /*
@@ -31,8 +33,15 @@ public class Account {
         this.balance = depositAmount;
     }
 
-    public void withdraw(Double withdrawAmount) {
+    public void withdraw(Double withdrawAmount) throws DomainAccountException {
+        if (this.balance < withdrawAmount) {
+            throw new DomainAccountException("Erro em saque: Não há saldo suficiente na conta corrente.");
+        }
+        else if (withdrawAmount > this.withdrawLimit) {
+            throw new DomainAccountException("Erro em saque: O valor do saque é maior do que o valor permitido.");
+        }
         this.balance -= withdrawAmount;
+        System.out.println("Saldo atual: " + this.balance + "\n");
     }
 
     @Override
@@ -41,7 +50,7 @@ public class Account {
                 number +
                 "\nAgência: " +
                 holder +
-                "\nConta corrente: " +
+                "\nSaldo Atual: " +
                 balance +
                 "\nLimite de saque: " +
                 withdrawLimit + "\n";
