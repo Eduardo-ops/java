@@ -21,15 +21,31 @@ public class Account {
      * */
     private Double withdrawLimit;
 
-    private Double initialDeposite;
-
-    public Account(int number, String holder, Double initialDeposite) {
+    public Account(int number, String holder) {
         this.number = number;
         this.holder = holder;
         this.withdrawLimit = 3000.0;
-        this.initialDeposite = initialDeposite;
     }
 
+    public void deposit(Double depositAmount) {
+        this.balance = depositAmount;
+    }
+
+    public void withdraw(Double withdrawAmount) {
+        this.balance -= withdrawAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "Conta: " +
+                number +
+                "\nAgência: " +
+                holder +
+                "\nConta corrente: " +
+                balance +
+                "\nLimite de saque: " +
+                withdrawLimit + "\n";
+    }
 
     public int getNumber() {
         return number;
@@ -61,13 +77,5 @@ public class Account {
 
     public void setWithdrawLimit(Double withdrawLimit) {
         this.withdrawLimit = withdrawLimit;
-    }
-
-    public Double getInitialDeposite() {
-        return initialDeposite;
-    }
-
-    public void setInitialDeposite(Double initialDeposite) {
-        this.initialDeposite = initialDeposite;
     }
 }
