@@ -19,7 +19,7 @@ public class Program {
         Scanner scanner = new Scanner(System.in);
         int number, opcao;
         String holder;
-        Double depositAmount, withdrawAmount;
+        Double depositAmount, withdrawAmount, withdrawLimit;
         Account account = null;
 
         try {
@@ -38,10 +38,14 @@ public class Program {
                     System.out.println("Informe o número da conta bancária:");
                     number = scanner.nextInt();
 
-                    System.out.println("Informe a agência:");
-                    holder = scanner.next();
+                    System.out.println("Informe o titular:");
+                    scanner.nextLine();
+                    holder = scanner.nextLine();
 
-                    account = new Account(number, holder);
+                    System.out.println("Informe o limite máximo de saque:");
+                    withdrawLimit = scanner.nextDouble();
+
+                    account = new Account(number, holder, withdrawLimit);
                 }
                 else if (opcao == 2) {
                     System.out.println("Informe o valor do depósito:");
@@ -72,5 +76,6 @@ public class Program {
             System.out.println("Erro inesperado.\n");
             System.out.println(e.getMessage());
         }
+        scanner.close();
     }
 }

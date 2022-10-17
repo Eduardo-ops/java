@@ -9,7 +9,7 @@ public class Account {
      * */
     private int number;
     /*
-     * Agência
+     * Titular da conta
      * */
     private String holder;
 
@@ -23,32 +23,37 @@ public class Account {
      * */
     private Double withdrawLimit;
 
-    public Account(int number, String holder) {
+    public Account(int number, String holder, Double withdrawLimit) {
         this.number = number;
         this.holder = holder;
-        this.withdrawLimit = 3000.0;
+        this.balance = 0.0;
+        this.withdrawLimit = withdrawLimit;
     }
 
     public void deposit(Double depositAmount) {
-        this.balance = depositAmount;
+        this.balance += depositAmount;
     }
 
     public void withdraw(Double withdrawAmount) throws DomainAccountException {
-        if (this.balance < withdrawAmount) {
-            throw new DomainAccountException("Erro em saque: Não há saldo suficiente na conta corrente.");
-        }
-        else if (withdrawAmount > this.withdrawLimit) {
-            throw new DomainAccountException("Erro em saque: O valor do saque é maior do que o valor permitido.");
-        }
+        validateWithdraw(withdrawAmount);
         this.balance -= withdrawAmount;
         System.out.println("Saldo atual: " + this.balance + "\n");
+    }
+
+    public void validateWithdraw(Double withdrawAmount) throws DomainAccountException {
+        if (this.balance < withdrawAmount) {
+            throw new DomainAccountException("Erro em saque: Não há saldo suficiente.");
+        }
+        if (withdrawAmount > getWithdrawLimit()) {
+            throw new DomainAccountException("Erro em saque: O valor do saque é maior do que o valor permitido.");
+        }
     }
 
     @Override
     public String toString() {
         return "Conta: " +
                 number +
-                "\nAgência: " +
+                "\nTitular: " +
                 holder +
                 "\nSaldo Atual: " +
                 balance +
