@@ -17,7 +17,7 @@ public class Candidate {
         String[] parts = line.split(separator);
 
         if (parts.length != 2) {
-            throw new IllegalArgumentException("Linha de jogador mal-formada: " + line);
+            throw new IllegalArgumentException("Linha de candidato mal-formada: " + line);
         }
 
         return new Candidate(
