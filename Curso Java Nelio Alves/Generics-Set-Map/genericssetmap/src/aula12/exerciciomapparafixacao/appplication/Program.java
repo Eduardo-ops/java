@@ -2,21 +2,39 @@ package aula12.exerciciomapparafixacao.appplication;
 
 import aula12.exerciciomapparafixacao.entities.Candidate;
 
-import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Program {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        Map<Candidate, Integer> votingResult = new HashMap<>();
+        Map<Candidate, Integer> votingResult = new LinkedHashMap<>();
+        Scanner scanner = new Scanner(System.in);
+        BufferedReader fileCsv = null;
+        String line = "";
+        String caminhoArquivo = "";
 
-        System.out.println("Em andamento...");
+        System.out.println("Informe o caminho do arquivo csv:");
+        caminhoArquivo = scanner.nextLine();
 
-        /* Ler arquivo CSV */
+        fileCsv = new BufferedReader(new FileReader(caminhoArquivo));
+        System.out.println("");
 
-        /* Mapear os dados para o map */
+        while ((line = fileCsv.readLine()) != null) {
+            Candidate candidate = new Candidate().parse(line, ";");
+            votingResult.put(candidate, candidate.getNumber());
+        }
 
-        /* realizar a impressão dos nomes */
+        System.out.println("Total de candidatos: " + votingResult.size() + "\n");
+
+        System.out.println("Rank dos candidatos vencedores:");
+        for (Candidate key : votingResult.keySet()) {
+            System.out.println(key.getName() + ":" + votingResult.get(key));
+        }
     }
 }

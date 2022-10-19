@@ -14,6 +14,7 @@ public class ProgramTwo {
     public static void main(String[] args) {
 
         Map<Product, Double> stock = new HashMap<>();
+        int count = 0;
 
         Product product1 = new Product("Tv", 6700.0);
         Product product2 = new Product("Notebook Dell", 4400.0);
@@ -36,5 +37,10 @@ public class ProgramTwo {
         } else {
             System.out.println("False!");
         }
+
+        System.out.println("Produto: " + product1.getName() + " contém ao todo: " + stock.get(product1) + " unidades.");
+        System.out.println("Produto: " + product2.getName() + " contém ao todo: " + stock.get(product2) + " unidades.");
+        System.out.println("Produto: " + product3.getName() + " contém ao todo: " + stock.get(product3) + " unidades.");
+        System.out.println("Produto: " + product4.getName() + " contém ao todo: " + stock.get(product4) + " unidades.");
     }
 }

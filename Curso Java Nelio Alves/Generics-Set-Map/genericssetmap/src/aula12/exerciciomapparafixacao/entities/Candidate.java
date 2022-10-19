@@ -3,14 +3,27 @@ package aula12.exerciciomapparafixacao.entities;
 public class Candidate {
 
     private String name;
-    private String number;
+    private int votings;
 
     public Candidate() {
     }
 
-    public Candidate(String name, String number) {
+    public Candidate(String name, int votings) {
         this.name = name;
-        this.number = number;
+        this.votings = votings;
+    }
+
+    public Candidate parse(String line, String separator) {
+        String[] parts = line.split(separator);
+
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Linha de jogador mal-formada: " + line);
+        }
+
+        return new Candidate(
+                parts[0].trim(),
+                Integer.parseInt(parts[1].trim())
+        );
     }
 
     public String getName() {
@@ -21,11 +34,11 @@ public class Candidate {
         this.name = name;
     }
 
-    public String getNumber() {
-        return number;
+    public int getNumber() {
+        return votings;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setNumber(int number) {
+        this.votings = number;
     }
 }
