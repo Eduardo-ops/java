@@ -1,5 +1,7 @@
 package tratamentodeexcecoes.aula07.exerciciodefixacao.model.entities;
 
+import tratamentodeexcecoes.aula07.exerciciodefixacao.model.exceptions.DomainAccountException;
+
 public class Account {
 
     /*
@@ -7,7 +9,7 @@ public class Account {
      * */
     private int number;
     /*
-     * Agência
+     * Titular da conta
      * */
     private String holder;
 
@@ -21,15 +23,43 @@ public class Account {
      * */
     private Double withdrawLimit;
 
-    private Double initialDeposite;
-
-    public Account(int number, String holder, Double initialDeposite) {
+    public Account(int number, String holder, Double withdrawLimit) {
         this.number = number;
         this.holder = holder;
-        this.withdrawLimit = 3000.0;
-        this.initialDeposite = initialDeposite;
+        this.balance = 0.0;
+        this.withdrawLimit = withdrawLimit;
     }
 
+    public void deposit(Double depositAmount) {
+        this.balance += depositAmount;
+    }
+
+    public void withdraw(Double withdrawAmount) throws DomainAccountException {
+        validateWithdraw(withdrawAmount);
+        this.balance -= withdrawAmount;
+        System.out.println("Saldo atual: " + this.balance + "\n");
+    }
+
+    public void validateWithdraw(Double withdrawAmount) throws DomainAccountException {
+        if (this.balance < withdrawAmount) {
+            throw new DomainAccountException("Erro em saque: Não há saldo suficiente.");
+        }
+        if (withdrawAmount > getWithdrawLimit()) {
+            throw new DomainAccountException("Erro em saque: O valor do saque é maior do que o valor permitido.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Conta: " +
+                number +
+                "\nTitular: " +
+                holder +
+                "\nSaldo Atual: " +
+                balance +
+                "\nLimite de saque: " +
+                withdrawLimit + "\n";
+    }
 
     public int getNumber() {
         return number;
@@ -61,13 +91,5 @@ public class Account {
 
     public void setWithdrawLimit(Double withdrawLimit) {
         this.withdrawLimit = withdrawLimit;
-    }
-
-    public Double getInitialDeposite() {
-        return initialDeposite;
-    }
-
-    public void setInitialDeposite(Double initialDeposite) {
-        this.initialDeposite = initialDeposite;
     }
 }
