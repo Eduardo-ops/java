@@ -26,10 +26,12 @@ public class Program {
         String line = null;
         Product product = null;
         List<Product> products = new ArrayList<Product>();
-        Boolean success = null;
+        Boolean newSubDirectory = null;
         String newPath = null;
+        File originPath = null;
+        File newFileSummary = null;
 
-        System.out.println("Informe o caminho do arquivo:");
+        System.out.println("Enter the file path:");
         pathFile = sc.nextLine();
 
         try (BufferedReader br = new BufferedReader(new FileReader(pathFile))) {
@@ -42,10 +44,13 @@ public class Program {
                 line = br.readLine();
             }
 
-            newPath = String.valueOf(success = new File(pathFile + "\\out").mkdir());
+            originPath = new File(pathFile);
+            newSubDirectory = new File(originPath.getParent() + "\\out").mkdir();
 
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(newPath))) {
+            newFileSummary = new File(originPath.getParent() + "\\out" + "\\summary.csv");
+            newFileSummary.createNewFile();
 
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(newFileSummary))) {
                 for (Product pd : products) {
                     bw.write(pd.getName() + "," + pd.getQuantity() * pd.getPrice());
                     bw.newLine();
@@ -56,6 +61,5 @@ public class Program {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
-        System.out.println("TEste");
     }
 }
