@@ -1,0 +1,13 @@
+• Para marcar uma linha de breackpoint:
+	• Run -> Toggle Breackpoint
+	• Ctrl + Shift + b
+
+• Para iniciar o debug:
+	• Botão direito na classe -> Debug as -> JAva Application
+	• Clicar no ícone do inserto na parte superior perto do íconde de run.
+	
+• Para executar uma linha:
+	• F6
+	
+• Para interromper o debug:
+	• Clicar no ícone de stop vermelho.
