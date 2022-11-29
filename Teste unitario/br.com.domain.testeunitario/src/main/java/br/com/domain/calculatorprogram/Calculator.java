@@ -16,7 +16,7 @@ public class Calculator {
 
 	public double squareRoot(double number) {
 		if (number < 0) {
-			throw new IllegalArgumentException("Não existe raiz quadrada real para números negativos");
+			throw new IllegalArgumentException("NÃ£o existe raiz quadrada real para nÃºmeros negativos");
 		}
 
 		return Math.sqrt(number);
