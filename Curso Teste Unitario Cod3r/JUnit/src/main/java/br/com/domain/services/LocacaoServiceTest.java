@@ -7,12 +7,12 @@ import br.com.domain.entities.Locacao;
 import br.com.domain.entities.Usuario;
 import br.com.domain.utils.DataUtils;
 
-public class LocaoServiceTest {
+public class LocacaoServiceTest {
 
 	/**
 	 * Teste sem a utilizaçao de ferramenta
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		LocacaoService locacaoService = new LocacaoService();
 		boolean result = false;
 
