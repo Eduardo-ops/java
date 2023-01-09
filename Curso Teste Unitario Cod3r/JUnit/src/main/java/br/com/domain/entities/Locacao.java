@@ -1,11 +1,12 @@
 package br.com.domain.entities;
 
 import java.util.Date;
+import java.util.List;
 
 public class Locacao {
 
 	private Usuario usuario;
-	private Filme filme;
+	private List<Filme> listFilmes;
 	private Date dataLocacao;
 	private Date dataRetorno;
 	private Double valor;
@@ -16,7 +17,7 @@ public class Locacao {
 
 	@Override
 	public String toString() {
-		return "Locacao [usuario=" + usuario + ", filme=" + filme + ", dataLocacao=" + dataLocacao + ", dataRetorno="
+		return "Locacao [usuario=" + usuario + ", filme=" + listFilmes + ", dataLocacao=" + dataLocacao + ", dataRetorno="
 				+ dataRetorno + ", valor=" + valor + "]";
 	}
 
@@ -48,11 +49,12 @@ public class Locacao {
 		this.valor = valor;
 	}
 
-	public Filme getFilme() {
-		return filme;
+	public List<Filme> getFilme() {
+		return listFilmes;
 	}
 
-	public void setFilme(Filme filme) {
-		this.filme = filme;
+	public void setFilme(List<Filme> filmes) {
+		this.listFilmes = filmes;
 	}
+
 }

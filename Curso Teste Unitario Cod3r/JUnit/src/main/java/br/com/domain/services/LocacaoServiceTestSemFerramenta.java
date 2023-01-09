@@ -1,6 +1,8 @@
 package br.com.domain.services;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import br.com.domain.entities.Filme;
 import br.com.domain.entities.Locacao;
@@ -18,10 +20,11 @@ public class LocacaoServiceTestSemFerramenta {
 
 		// Cenario
 		Usuario usuario = new Usuario("Eduardo Isidoro Gonçalves");
-		Filme filme = new Filme("Avatar 2", 10, 6.50);
+		List<Filme> listFilmes = new ArrayList<Filme>();
+		listFilmes.add(new Filme("Batman Begins", 10, 6.50));
 
 		// Acao
-		Locacao locacao = locacaoService.alugarFilme(usuario, filme);
+		Locacao locacao = locacaoService.alugarFilme(usuario, listFilmes);
 
 		// Validacao
 		System.out.println(locacao.getValor() == 6.50);

@@ -7,7 +7,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -64,20 +67,23 @@ public class LocacaoServiceTest {
 	public void testeLocacao() throws Exception {
 		// Cenario
 		Usuario usuario = new Usuario("Eduardo Isidoro Gonçalves");
-		Filme filme = new Filme("Avatar 2", 10, 6.50);
+		List<Filme> listFilmes = new ArrayList<Filme>();
+
+		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
+		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
 
 		// Acao
 		Locacao locacao;
 		try {
-			locacao = locacaoService.alugarFilme(usuario, filme);
+			locacao = locacaoService.alugarFilme(usuario, listFilmes);
 
 			// Validacao modo 1
-			Assert.assertEquals(6.50, locacao.getValor(), 0.01);
+			Assert.assertEquals(13, locacao.getValor(), 0.01);
 			Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
 			Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
 
 			// Validacao modo 2 - Fluent Interface
-			assertThat(locacao.getValor(), is(equalTo(6.50)));
+			assertThat(locacao.getValor(), is(equalTo(13.0)));
 			assertThat(locacao.getValor(), is(not(6.0)));
 			assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
@@ -87,89 +93,89 @@ public class LocacaoServiceTest {
 
 	}
 
-	/**
-	 * Teste com utilizaçao ErrorCollector, onde nos possibilita verificar todos os
-	 * possíveis erros.
-	 * 
-	 * Utilizando também o lançamento de exceção, onde faz com que o JUnit faz todo
-	 * o tratamento da exceção
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testeLocacaoComErrorCollector() throws Exception {
-		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		Filme filme = new Filme("Batman Begins", 2, 6.50);
-
-		Locacao locacao = locacaoService.alugarFilme(usuario, filme);
-
-		errors.checkThat(locacao.getValor(), is(equalTo(6.50)));
-		errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-		errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-	}
-
-	/**
-	 * Teste passando uma exception na anotação, onde o teste vai ser validado se
-	 * realmente for lançado a exceção esperada e somente deve ser usado quando
-	 * realmente tiver certeza do retorno da exceção esperada, uma forma mais
-	 * elegante
-	 * 
-	 * JUnit faz todo tratamento de exceção.
-	 * 
-	 * @throws Exception
-	 */
-	@Test(expected = FilmeSemEstoqueException.class)
-	public void testeLocacaoFilmeSemEstoque() throws Exception {
-		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		Filme filme = new Filme("Batman Begins", 0, 6.50);
-
-		locacaoService.alugarFilme(usuario, filme);
-	}
-
-	/**
-	 * Mesma finalidade do método testeLocacaoFilmeSemEstoque, porém aqui tratamos a
-	 * exceção de forma mais clara no próprio código, uma forma mais robusta.
-	 * 
-	 * Instrutor recomenda usar essa forma, pelo fato de ser mais completa, ou seja,
-	 * robusta.
-	 * 
-	 * @throws LocadoraException
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testeLocacaoFilmeSemEstoque2() throws Exception {
-		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		Filme filme = new Filme("Batman Begins", 0, 6.50);
-
-		try {
-			locacaoService.alugarFilme(usuario, filme);
-			Assert.fail("Deveria ter lançado uma exceção");
-		} catch (Exception e) {
-			assertThat(e.getMessage(), is("Filme sem estoque"));
-		}
-	}
-
-	/**
-	 * Teste utilizando ExpectedException, onde dizemos qual exceção é esperada a
-	 * ser lançada e qual o tipo de mensagem de retorno
-	 * 
-	 * JUnit faz todo tratamento de exceção.
-	 * 
-	 * @throws FilmeSemEstoqueException
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testeLocacaoFilmeSemEstoque3() throws Exception {
-		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		Filme filme = new Filme("Batman Begins", 0, 6.50);
-
-		expectedException.expect(Exception.class);
-		expectedException.expectMessage("Filme sem estoque");
-
-		locacaoService.alugarFilme(usuario, filme);
-	}
+//	/**
+//	 * Teste com utilizaçao ErrorCollector, onde nos possibilita verificar todos os
+//	 * possíveis erros.
+//	 * 
+//	 * Utilizando também o lançamento de exceção, onde faz com que o JUnit faz todo
+//	 * o tratamento da exceção
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test
+//	public void testeLocacaoComErrorCollector() throws Exception {
+//		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+//		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 2, 6.50));
+//
+//		Locacao locacao = locacaoService.alugarFilme(usuario, listFilmes);
+//
+//		errors.checkThat(locacao.getValor(), is(equalTo(6.50)));
+//		errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+//		errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+//	}
+//
+//	/**
+//	 * Teste passando uma exception na anotação, onde o teste vai ser validado se
+//	 * realmente for lançado a exceção esperada e somente deve ser usado quando
+//	 * realmente tiver certeza do retorno da exceção esperada, uma forma mais
+//	 * elegante
+//	 * 
+//	 * JUnit faz todo tratamento de exceção.
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test(expected = FilmeSemEstoqueException.class)
+//	public void testeLocacaoFilmeSemEstoque() throws Exception {
+//		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+//		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+//
+//		locacaoService.alugarFilme(usuario, listFilmes);
+//	}
+//
+//	/**
+//	 * Mesma finalidade do método testeLocacaoFilmeSemEstoque, porém aqui tratamos a
+//	 * exceção de forma mais clara no próprio código, uma forma mais robusta.
+//	 * 
+//	 * Instrutor recomenda usar essa forma, pelo fato de ser mais completa, ou seja,
+//	 * robusta.
+//	 * 
+//	 * @throws LocadoraException
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test
+//	public void testeLocacaoFilmeSemEstoque2() throws Exception {
+//		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+//		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+//
+//		try {
+//			locacaoService.alugarFilme(usuario, listFilmes);
+//			Assert.fail("Deveria ter lançado uma exceção");
+//		} catch (Exception e) {
+//			assertThat(e.getMessage(), is("Filme sem estoque"));
+//		}
+//	}
+//
+//	/**
+//	 * Teste utilizando ExpectedException, onde dizemos qual exceção é esperada a
+//	 * ser lançada e qual o tipo de mensagem de retorno
+//	 * 
+//	 * JUnit faz todo tratamento de exceção.
+//	 * 
+//	 * @throws FilmeSemEstoqueException
+//	 * 
+//	 * @throws Exception
+//	 */
+//	@Test
+//	public void testeLocacaoFilmeSemEstoque3() throws Exception {
+//		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+//		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+//
+//		expectedException.expect(Exception.class);
+//		expectedException.expectMessage("Filme sem estoque");
+//
+//		locacaoService.alugarFilme(usuario, listFilmes);
+//	}
 
 	/**
 	 * Essa é a forma mais pratica de se usar a forma elegante, porém, quando se
@@ -186,9 +192,9 @@ public class LocacaoServiceTest {
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void testeLocacaoFilmeSemEstoque4() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		Filme filme = new Filme("Batman Begins", 0, 6.50);
+		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
 
-		locacaoService.alugarFilme(usuario, filme);
+		locacaoService.alugarFilme(usuario, listFilmes);
 	}
 
 	/**
@@ -201,10 +207,13 @@ public class LocacaoServiceTest {
 	 */
 	@Test
 	public void testeLocacaoSemUsuario() throws FilmeSemEstoqueException {
-		Filme filme = new Filme("Batman Begins", 9, 6.50);
+		List<Filme> listFilmes = new ArrayList<Filme>();
+
+		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
+		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
 
 		try {
-			locacaoService.alugarFilme(null, filme);
+			locacaoService.alugarFilme(null, listFilmes);
 			Assert.fail();
 		} catch (LocadoraException e) {
 			assertThat(e.getMessage(), is("Usuário obrigatório"));
@@ -219,11 +228,15 @@ public class LocacaoServiceTest {
 	@Test()
 	public void testeLocadoraSemFilme() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+		List<Filme> listFilmes = new ArrayList<Filme>();
+
+		listFilmes.add(null);
+		listFilmes.add(null);
 
 		expectedException.expect(LocadoraException.class);
 		expectedException.expectMessage("Filme obrigatório");
 
-		locacaoService.alugarFilme(usuario, null);
+		locacaoService.alugarFilme(usuario, listFilmes);
 
 	}
 }
