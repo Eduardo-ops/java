@@ -7,7 +7,7 @@ import br.com.domain.entities.Locacao;
 import br.com.domain.entities.Usuario;
 import br.com.domain.utils.DataUtils;
 
-public class LocacaoServiceTest {
+public class LocacaoServiceTestSemFerramenta {
 
 	/**
 	 * Teste sem a utilizaçao de ferramenta

@@ -9,7 +9,11 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Date;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -24,19 +28,40 @@ import br.com.domain.utils.DataUtils;
 
 public class LocacaoServiceTest {
 
+	private LocacaoService locacaoService;
+
 	@Rule
 	public ErrorCollector errors = new ErrorCollector();
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
+	@Before
+	public void setup() {
+		System.out.println("Before");
+		locacaoService = new LocacaoService();
+	}
+
+	@After
+	public void tearDown() {
+		System.out.println("After");
+	}
+
+	@BeforeClass
+	public static void setupClass() {
+		System.out.println("Before Class");
+	}
+
+	@AfterClass
+	public static void tearDownClass() {
+		System.out.println("After Class");
+	}
+
 	/**
 	 * Teste com utilizaçao de ferramenta
 	 */
 	@Test
 	public void testeLocacao() throws Exception {
-		LocacaoService locacaoService = new LocacaoService();
-
 		// Cenario
 		Usuario usuario = new Usuario("Eduardo Isidoro Gonçalves");
 		Filme filme = new Filme("Avatar 2", 10, 6.50);
@@ -73,8 +98,6 @@ public class LocacaoServiceTest {
 	 */
 	@Test
 	public void testeLocacaoComErrorCollector() throws Exception {
-		LocacaoService locacaoService = new LocacaoService();
-
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		Filme filme = new Filme("Batman Begins", 2, 6.50);
 
@@ -97,8 +120,6 @@ public class LocacaoServiceTest {
 	 */
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void testeLocacaoFilmeSemEstoque() throws Exception {
-		LocacaoService locacaoService = new LocacaoService();
-
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		Filme filme = new Filme("Batman Begins", 0, 6.50);
 
@@ -118,8 +139,6 @@ public class LocacaoServiceTest {
 	 */
 	@Test
 	public void testeLocacaoFilmeSemEstoque2() throws Exception {
-		LocacaoService locacaoService = new LocacaoService();
-
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		Filme filme = new Filme("Batman Begins", 0, 6.50);
 
@@ -143,8 +162,6 @@ public class LocacaoServiceTest {
 	 */
 	@Test
 	public void testeLocacaoFilmeSemEstoque3() throws Exception {
-		LocacaoService locacaoService = new LocacaoService();
-
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		Filme filme = new Filme("Batman Begins", 0, 6.50);
 
@@ -168,8 +185,6 @@ public class LocacaoServiceTest {
 	 */
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void testeLocacaoFilmeSemEstoque4() throws FilmeSemEstoqueException, LocadoraException {
-		LocacaoService locacaoService = new LocacaoService();
-
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		Filme filme = new Filme("Batman Begins", 0, 6.50);
 
@@ -186,8 +201,6 @@ public class LocacaoServiceTest {
 	 */
 	@Test
 	public void testeLocacaoSemUsuario() throws FilmeSemEstoqueException {
-		LocacaoService locacaoService = new LocacaoService();
-
 		Filme filme = new Filme("Batman Begins", 9, 6.50);
 
 		try {
@@ -205,8 +218,6 @@ public class LocacaoServiceTest {
 	 */
 	@Test()
 	public void testeLocadoraSemFilme() throws FilmeSemEstoqueException, LocadoraException {
-		LocacaoService locacaoService = new LocacaoService();
-
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 
 		expectedException.expect(LocadoraException.class);
