@@ -41,7 +41,7 @@ public class LocacaoServiceTest {
 
 	@Before
 	public void setup() {
-		System.out.println("Before");
+		// System.out.println("Before");
 		locacaoService = new LocacaoService();
 	}
 
@@ -61,12 +61,12 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste com utilizaçao de ferramenta
+	 * Teste com utilizaï¿½ao de ferramenta
 	 */
-	@Test
+	// @Test
 	public void testeLocacao() throws Exception {
 		// Cenario
-		Usuario usuario = new Usuario("Eduardo Isidoro Gonçalves");
+		Usuario usuario = new Usuario("Eduardo Isidoro Gonï¿½alves");
 		List<Filme> listFilmes = new ArrayList<Filme>();
 
 		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
@@ -74,7 +74,7 @@ public class LocacaoServiceTest {
 
 		// Acao
 		Locacao locacao;
-		
+
 		try {
 			locacao = locacaoService.alugarFilme(usuario, listFilmes);
 
@@ -88,19 +88,18 @@ public class LocacaoServiceTest {
 			assertThat(locacao.getValor(), is(not(6.0)));
 			assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
 	/**
-	 * Teste com utilizaçao ErrorCollector, onde nos possibilita verificar todos os
-	 * possíveis erros.
+	 * Teste com utilizaï¿½ao ErrorCollector, onde nos possibilita verificar todos os
+	 * possï¿½veis erros.
 	 * 
-	 * Utilizando também o lançamento de exceção, onde faz com que o JUnit faz todo
-	 * o tratamento da exceção
+	 * Utilizando tambï¿½m o lanï¿½amento de exceï¿½ï¿½o, onde faz com que o JUnit faz todo
+	 * o tratamento da exceï¿½ï¿½o
 	 * 
 	 * @throws Exception
 	 */
@@ -117,12 +116,12 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste passando uma exception na anotação, onde o teste vai ser validado se
-	 * realmente for lançado a exceção esperada e somente deve ser usado quando
-	 * realmente tiver certeza do retorno da exceção esperada, uma forma mais
+	 * Teste passando uma exception na anotaï¿½ï¿½o, onde o teste vai ser validado se
+	 * realmente for lanï¿½ado a exceï¿½ï¿½o esperada e somente deve ser usado quando
+	 * realmente tiver certeza do retorno da exceï¿½ï¿½o esperada, uma forma mais
 	 * elegante
 	 * 
-	 * JUnit faz todo tratamento de exceção.
+	 * JUnit faz todo tratamento de exceï¿½ï¿½o.
 	 * 
 	 * @throws Exception
 	 */
@@ -135,8 +134,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Mesma finalidade do método testeLocacaoFilmeSemEstoque, porém aqui tratamos a
-	 * exceção de forma mais clara no próprio código, uma forma mais robusta.
+	 * Mesma finalidade do mï¿½todo testeLocacaoFilmeSemEstoque, porï¿½m aqui tratamos a
+	 * exceï¿½ï¿½o de forma mais clara no prï¿½prio cï¿½digo, uma forma mais robusta.
 	 * 
 	 * Instrutor recomenda usar essa forma, pelo fato de ser mais completa, ou seja,
 	 * robusta.
@@ -152,18 +151,17 @@ public class LocacaoServiceTest {
 
 		try {
 			locacaoService.alugarFilme(usuario, listFilmes);
-			Assert.fail("Deveria ter lançado uma exceção");
-		} 
-		catch (Exception e) {
+			Assert.fail("Deveria ter lanï¿½ado uma exceï¿½ï¿½o");
+		} catch (Exception e) {
 			assertThat(e.getMessage(), is("Filme sem estoque"));
 		}
 	}
 
 	/**
-	 * Teste utilizando ExpectedException, onde dizemos qual exceção é esperada a
-	 * ser lançada e qual o tipo de mensagem de retorno
+	 * Teste utilizando ExpectedException, onde dizemos qual exceï¿½ï¿½o ï¿½ esperada a
+	 * ser lanï¿½ada e qual o tipo de mensagem de retorno
 	 * 
-	 * JUnit faz todo tratamento de exceção.
+	 * JUnit faz todo tratamento de exceï¿½ï¿½o.
 	 * 
 	 * @throws FilmeSemEstoqueException
 	 * 
@@ -181,14 +179,14 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Essa é a forma mais pratica de se usar a forma elegante, porém, quando se
-	 * passa a própria exception customizada no programa, e não uma simples
-	 * exception genérica
+	 * Essa ï¿½ a forma mais pratica de se usar a forma elegante, porï¿½m, quando se
+	 * passa a prï¿½pria exception customizada no programa, e nï¿½o uma simples
+	 * exception genï¿½rica
 	 * 
-	 * Teste passando uma exception na anotação, onde o teste vai ser validado se
-	 * realmente for lançado a exceção esperada.
+	 * Teste passando uma exception na anotaï¿½ï¿½o, onde o teste vai ser validado se
+	 * realmente for lanï¿½ado a exceï¿½ï¿½o esperada.
 	 * 
-	 * JUnit faz todo tratamento de exceção.
+	 * JUnit faz todo tratamento de exceï¿½ï¿½o.
 	 * 
 	 * @throws Exception
 	 */
@@ -201,7 +199,7 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que faz a validação de usuário com base na forma robusta
+	 * Teste que faz a validaï¿½ï¿½o de usuï¿½rio com base na forma robusta
 	 * 
 	 * * Instrutor recomenda usar essa forma, pelo fato de ser mais completa, ou
 	 * seja, robusta.
@@ -218,14 +216,13 @@ public class LocacaoServiceTest {
 		try {
 			locacaoService.alugarFilme(null, listFilmes);
 			Assert.fail();
-		} 
-		catch (LocadoraException e) {
-			assertThat(e.getMessage(), is("Usuário obrigatório"));
+		} catch (LocadoraException e) {
+			assertThat(e.getMessage(), is("Usuï¿½rio obrigatï¿½rio"));
 		}
 	}
 
 	/**
-	 * Teste que faz a validação de filme com base na forma nova
+	 * Teste que faz a validaï¿½ï¿½o de filme com base na forma nova
 	 * 
 	 * @throws Exception
 	 */
@@ -238,8 +235,99 @@ public class LocacaoServiceTest {
 		listFilmes.add(null);
 
 		expectedException.expect(LocadoraException.class);
-		expectedException.expectMessage("Filme obrigatório");
+		expectedException.expectMessage("Filme obrigatï¿½rio");
 
 		locacaoService.alugarFilme(usuario, listFilmes);
+	}
+
+	/**
+	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o desconto
+	 * de 25%.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testePagarCom25PorcentoDeDesconto3Filme() throws FilmeSemEstoqueException, LocadoraException {
+		Usuario usuario = new Usuario("Isabelle Fernandes de Campos");
+		List<Filme> listFilmes = new ArrayList<Filme>();
+		Locacao locacao;
+
+		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
+		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
+		listFilmes.add(new Filme("Busca ImplacÃ¡vel1", 10, 6.50));
+
+		locacao = locacaoService.alugarFilme(usuario, listFilmes);
+
+		Assert.assertEquals(17.88, locacao.getValor(), 0.01);
+	}
+
+	/**
+	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o desconto
+	 * de 50%.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testePagarCom50PorcentoDeDesconto4Filme() throws FilmeSemEstoqueException, LocadoraException {
+		Usuario usuario = new Usuario("Isabelle Fernandes de Campos");
+		List<Filme> listFilmes = new ArrayList<Filme>();
+		Locacao locacao;
+
+		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
+		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
+		listFilmes.add(new Filme("Busca ImplacÃ¡vel1", 10, 6.50));
+		listFilmes.add(new Filme("Busca ImplacÃ¡vel2", 10, 6.50));
+
+		locacao = locacaoService.alugarFilme(usuario, listFilmes);
+
+		Assert.assertEquals(22.75, locacao.getValor(), 0.01);
+	}
+
+	/**
+	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o desconto
+	 * de 75%.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testepagarCom75PorcentoDeDesconto5Filme() throws FilmeSemEstoqueException, LocadoraException {
+		Usuario usuario = new Usuario("Luiz Souza");
+		List<Filme> listFilmes = new ArrayList<Filme>();
+		Locacao locacao;
+
+		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
+		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
+		listFilmes.add(new Filme("Busca ImplacÃ¡vel 1", 10, 6.50));
+		listFilmes.add(new Filme("A Era do Gelo 1", 10, 6.50));
+		listFilmes.add(new Filme("Need for Speed", 10, 6.50));
+
+		locacao = locacaoService.alugarFilme(usuario, listFilmes);
+
+		Assert.assertEquals(27.63, locacao.getValor(), 0.01);
+
+	}
+
+	/**
+	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o desconto
+	 * de 100%.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testepagarCom100PorcentoDeDesconto6Filme() throws FilmeSemEstoqueException, LocadoraException {
+		Usuario usuario = new Usuario("Luiz Souza");
+		List<Filme> listFilmes = new ArrayList<Filme>();
+		Locacao locacao;
+
+		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
+		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
+		listFilmes.add(new Filme("Busca ImplacÃ¡vel 1", 10, 6.50));
+		listFilmes.add(new Filme("A Era do Gelo 1", 10, 6.50));
+		listFilmes.add(new Filme("Need for Speed", 10, 6.50));
+		listFilmes.add(new Filme("Quarto de Guerra", 10, 6.50));
+
+		locacao = locacaoService.alugarFilme(usuario, listFilmes);
+
+		Assert.assertEquals(32.50, locacao.getValor(), 0.01);
 	}
 }

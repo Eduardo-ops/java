@@ -13,15 +13,18 @@ import br.com.domain.exceptions.LocadoraException;
 
 public class LocacaoService {
 
-	public Locacao alugarFilme(Usuario usuario, List<Filme> listFilmes) throws FilmeSemEstoqueException, LocadoraException {
+	public Locacao alugarFilme(Usuario usuario, List<Filme> listFilmes)
+			throws FilmeSemEstoqueException, LocadoraException {
 
+		// RN UsuÃ¡rio obrigatÃ³rio
 		if (usuario == null) {
-			throw new LocadoraException("Usuário obrigatório");
+			throw new LocadoraException("Usuï¿½rio obrigatï¿½rio");
 		}
 
+		// RN Filme obrigatÃ³rio
 		for (Filme filme : listFilmes) {
 			if (filme == null) {
-				throw new LocadoraException("Filme obrigatório");
+				throw new LocadoraException("Filme obrigatï¿½rio");
 			}
 
 			if (filme.getEstoque() == 0) {
@@ -36,8 +39,39 @@ public class LocacaoService {
 		locacao.setDataLocacao(new Date());
 		double valorTotal = 0;
 
-		for (Filme filme : listFilmes) {
-			valorTotal += filme.getPrecoLocacao();
+		// RN desconto no Ãºltimo filme de acordo com a quantidade
+		if (listFilmes.size() == 3) {
+			listFilmes.get(2).setPrecoLocacao(
+					listFilmes.get(2).getPrecoLocacao() - (listFilmes.get(2).getPrecoLocacao() * 0.25));
+
+			for (Filme filme : listFilmes) {
+				valorTotal += filme.getPrecoLocacao();
+			}
+		} 
+		else if (listFilmes.size() == 4) {
+			listFilmes.get(3).setPrecoLocacao(
+					listFilmes.get(3).getPrecoLocacao() - (listFilmes.get(3).getPrecoLocacao() * 0.50));
+
+			for (Filme filme : listFilmes) {
+				valorTotal += filme.getPrecoLocacao();
+			}
+		} 
+		else if (listFilmes.size() == 5) {
+			listFilmes.get(4).setPrecoLocacao(
+					listFilmes.get(4).getPrecoLocacao() - (listFilmes.get(4).getPrecoLocacao() * 0.75));
+			System.out.println(listFilmes.get(4).getPrecoLocacao());
+
+			for (Filme filme : listFilmes) {
+				valorTotal += filme.getPrecoLocacao();
+			}
+		} 
+		else if (listFilmes.size() == 6) {
+			listFilmes.get(5)
+					.setPrecoLocacao(listFilmes.get(5).getPrecoLocacao() - (listFilmes.get(5).getPrecoLocacao() * 1));
+
+			for (Filme filme : listFilmes) {
+				valorTotal += filme.getPrecoLocacao();
+			}
 		}
 
 		locacao.setValor(valorTotal);
