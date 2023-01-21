@@ -40,38 +40,22 @@ public class LocacaoService {
 		double valorTotal = 0;
 
 		// RN desconto no último filme de acordo com a quantidade
-		if (listFilmes.size() == 3) {
-			listFilmes.get(2).setPrecoLocacao(
-					listFilmes.get(2).getPrecoLocacao() - (listFilmes.get(2).getPrecoLocacao() * 0.25));
-
-			for (Filme filme : listFilmes) {
-				valorTotal += filme.getPrecoLocacao();
+		for (int i = 0; i < listFilmes.size(); i++) {
+			switch (i) {
+			case 2:
+				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.75);
+				break;
+			case 3:
+				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.50);
+				break;
+			case 4:
+				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.25);
+				break;
+			case 5:
+				listFilmes.get(i).setPrecoLocacao(0.0);
 			}
-		} 
-		else if (listFilmes.size() == 4) {
-			listFilmes.get(3).setPrecoLocacao(
-					listFilmes.get(3).getPrecoLocacao() - (listFilmes.get(3).getPrecoLocacao() * 0.50));
 
-			for (Filme filme : listFilmes) {
-				valorTotal += filme.getPrecoLocacao();
-			}
-		} 
-		else if (listFilmes.size() == 5) {
-			listFilmes.get(4).setPrecoLocacao(
-					listFilmes.get(4).getPrecoLocacao() - (listFilmes.get(4).getPrecoLocacao() * 0.75));
-			System.out.println(listFilmes.get(4).getPrecoLocacao());
-
-			for (Filme filme : listFilmes) {
-				valorTotal += filme.getPrecoLocacao();
-			}
-		} 
-		else if (listFilmes.size() == 6) {
-			listFilmes.get(5)
-					.setPrecoLocacao(listFilmes.get(5).getPrecoLocacao() - (listFilmes.get(5).getPrecoLocacao() * 1));
-
-			for (Filme filme : listFilmes) {
-				valorTotal += filme.getPrecoLocacao();
-			}
+			valorTotal = valorTotal + listFilmes.get(i).getPrecoLocacao();
 		}
 
 		locacao.setValor(valorTotal);
