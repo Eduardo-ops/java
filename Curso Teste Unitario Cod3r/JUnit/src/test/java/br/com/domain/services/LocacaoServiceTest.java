@@ -2,11 +2,13 @@ package br.com.domain.services;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -55,8 +57,11 @@ public class LocacaoServiceTest {
 	/**
 	 * Teste com utiliza�ao de ferramenta
 	 */
-	// @Test
+	@Test
 	public void testeDeveAlugarFilme() throws Exception {
+		// Garante que vai ser executado em dias diferentes que sábado
+		Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+
 		// Cenario
 		Usuario usuario = new Usuario("Eduardo Isidoro Gon�alves");
 		List<Filme> listFilmes = new ArrayList<Filme>();
@@ -80,9 +85,11 @@ public class LocacaoServiceTest {
 			assertThat(locacao.getValor(), is(not(6.0)));
 			assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
 	}
 
@@ -144,7 +151,8 @@ public class LocacaoServiceTest {
 		try {
 			locacaoService.alugarFilme(usuario, listFilmes);
 			Assert.fail("Deveria ter lan�ado uma exce��o");
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			assertThat(e.getMessage(), is("Filme sem estoque"));
 		}
 	}
@@ -208,7 +216,8 @@ public class LocacaoServiceTest {
 		try {
 			locacaoService.alugarFilme(null, listFilmes);
 			Assert.fail();
-		} catch (LocadoraException e) {
+		} 
+		catch (LocadoraException e) {
 			assertThat(e.getMessage(), is("Usu�rio obrigat�rio"));
 		}
 	}
@@ -324,13 +333,15 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * @throws LocadoraException @throws FilmeSemEstoqueException Teste que valida
-	 * se o filme vai ser devolvido no domingo.
+	 * Teste que valida se o filme vai ser devolvido no domingo.
 	 * 
 	 * @throws void
 	 */
 	@Test
 	public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException {
+		// Uma forma de garantir que considere o teste apenas quando o dia for sábado
+		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SUNDAY));
+
 		Usuario usuario = new Usuario("Luiz Souza");
 		List<Filme> listFilmes = new ArrayList<Filme>();
 
