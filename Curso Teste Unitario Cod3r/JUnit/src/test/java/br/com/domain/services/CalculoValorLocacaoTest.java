@@ -57,8 +57,8 @@ public class CalculoValorLocacaoTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
-	 * de acordo com os parametros
+	 * Teste que valida se o valor total a pagar está sendo calculado com o
+	 * desconto de acordo com os parametros
 	 * 
 	 * @throws Exception
 	 */
@@ -69,6 +69,8 @@ public class CalculoValorLocacaoTest {
 		Locacao locacao = locacaoService.alugarFilme(usuario, listFilmes);
 
 		assertThat(locacao.getValor(), is(valorLocacao));
+
+		System.out.println("!");
 	}
 
 }

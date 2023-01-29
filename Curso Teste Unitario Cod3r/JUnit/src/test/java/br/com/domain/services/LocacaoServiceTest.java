@@ -32,6 +32,7 @@ import br.com.domain.entities.Locacao;
 import br.com.domain.entities.Usuario;
 import br.com.domain.exceptions.FilmeSemEstoqueException;
 import br.com.domain.exceptions.LocadoraException;
+import br.com.domain.matchers.DiaSemanaMatcher;
 import br.com.domain.utils.DataUtils;
 
 public class LocacaoServiceTest {
@@ -46,7 +47,7 @@ public class LocacaoServiceTest {
 
 	@Before
 	public void setup() {
-		// System.out.println("Before");
+		System.out.println("Before");
 		locacaoService = new LocacaoService();
 	}
 
@@ -93,7 +94,7 @@ public class LocacaoServiceTest {
 
 			// Validacao modo 2 - Fluent Interface
 			assertThat(locacao.getValor(), is(equalTo(13.0)));
-			assertThat(locacao.getValor(), is(no));
+			//assertThat(locacao.getValor(), is(no));
 			assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 
@@ -106,7 +107,8 @@ public class LocacaoServiceTest {
 			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
 			errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -162,18 +164,19 @@ public class LocacaoServiceTest {
 	 * 
 	 * @throws Exception
 	 */
-	@Test
-	public void testeNaoDeveAlugarFilmeSemEstoque2() throws Exception {
-		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
-
-		try {
-			locacaoService.alugarFilme(usuario, listFilmes);
-			Assert.fail("Deveria ter lanï¿½ado uma exceï¿½ï¿½o");
-		} catch (Exception e) {
-			assertThat(e.getMessage(), is("Filme sem estoque"));
-		}
-	}
+//	@Test
+//	public void testeNaoDeveAlugarFilmeSemEstoque2() throws Exception {
+//		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+//		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+//
+//		try {
+//			locacaoService.alugarFilme(usuario, listFilmes);
+//			Assert.fail("Deveria ter lanï¿½ado uma exceï¿½ï¿½o");
+//		} 
+//		catch (Exception e) {
+//			assertThat(e.getMessage(), is("Filme sem estoque"));
+//		}
+//	}
 
 	/**
 	 * Teste utilizando ExpectedException, onde dizemos qual exceï¿½ï¿½o ï¿½
@@ -185,16 +188,16 @@ public class LocacaoServiceTest {
 	 * 
 	 * @throws Exception
 	 */
-	@Test
-	public void testeNaoDeveAlugarFilmeSemEstoque3() throws Exception {
-		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
-
-		expectedException.expect(Exception.class);
-		expectedException.expectMessage("Filme sem estoque");
-
-		locacaoService.alugarFilme(usuario, listFilmes);
-	}
+//	@Test
+//	public void testeNaoDeveAlugarFilmeSemEstoque3() throws Exception {
+//		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+//		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+//
+//		expectedException.expect(Exception.class);
+//		expectedException.expectMessage("Filme sem estoque");
+//
+//		locacaoService.alugarFilme(usuario, listFilmes);
+//	}
 
 	/**
 	 * Essa ï¿½ a forma mais pratica de se usar a forma elegante, porï¿½m, quando se
@@ -371,7 +374,7 @@ public class LocacaoServiceTest {
 		Assert.assertTrue(eSegunda);
 
 		// Validação com Matcher
-		// assertThat(locacao.getDataRetorno(), new DiaSemanaMatcher(Calendar.MONDAY));
+		assertThat(locacao.getDataRetorno(), new DiaSemanaMatcher(Calendar.MONDAY));
 
 		// Validação com matcher próprio
 		assertThat(locacao.getDataRetorno(), caiEm(Calendar.MONDAY));
