@@ -1,5 +1,7 @@
 package br.com.domain.services;
 
+import static br.com.domain.builders.FilmeBuilder.umFilme;
+import static br.com.domain.builders.UsuarioBuilder.umUsuario;
 import static br.com.domain.matchers.MatchersProprios.caiEm;
 import static br.com.domain.matchers.MatchersProprios.caiNumaSegunda;
 import static br.com.domain.matchers.MatchersProprios.eHoje;
@@ -27,6 +29,8 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
+import br.com.domain.builders.FilmeBuilder;
+import br.com.domain.builders.UsuarioBuilder;
 import br.com.domain.entities.Filme;
 import br.com.domain.entities.Locacao;
 import br.com.domain.entities.Usuario;
@@ -94,31 +98,75 @@ public class LocacaoServiceTest {
 
 			// Validacao modo 2 - Fluent Interface
 			assertThat(locacao.getValor(), is(equalTo(13.0)));
-			//assertThat(locacao.getValor(), is(no));
+			// assertThat(locacao.getValor(), is(no));
 			assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 
-			// Validação modo - errors
+			// Validaï¿½ï¿½o modo - errors
 			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
 			errors.checkThat(locacao.getDataLocacao(), eHoje());
 			errors.checkThat(locacao.getDataLocacao(), eHojeComDiferencaDias(1));
 
-			// Validacao modo matcher próprios
+			// Validacao modo matcher prï¿½prios
 			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
 			errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Teste com utilizaï¿½ao ErrorCollector, onde nos possibilita verificar todos
-	 * os possï¿½veis erros.
+	 * Teste com utilizaï¿½ao de ferramenta, porÃ©m, ao invÃ©s de utilizarmos a
+	 * instancia de um objeto usuario direto no mÃ©todo, utilizaremos uma instancia
+	 * de usuario do usuarioBuilder.
+	 */
+	@Test
+	public void testeDeveAlugarFilmeComUsuarioBuilderEfilmeBuilder() throws Exception {
+		// Cenario
+		Usuario usuario = umUsuario().novoUsuario();
+		List<Filme> listFilmes = new ArrayList<Filme>();
+
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
+
+		// Acao
+		Locacao locacao;
+
+		try {
+			locacao = locacaoService.alugarFilme(usuario, listFilmes);
+
+			// Validacao modo 1
+			Assert.assertEquals(13, locacao.getValor(), 0.01);
+			Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
+			Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
+
+			// Validacao modo 2 - Fluent Interface
+			assertThat(locacao.getValor(), is(equalTo(13.0)));
+			// assertThat(locacao.getValor(), is(no));
+			assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+			assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+
+			// Validaï¿½ï¿½o modo - errors
+			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
+			errors.checkThat(locacao.getDataLocacao(), eHoje());
+			errors.checkThat(locacao.getDataLocacao(), eHojeComDiferencaDias(1));
+
+			// Validacao modo matcher prï¿½prios
+			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
+			errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+			errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Teste com utilizaï¿½ao ErrorCollector, onde nos possibilita verificar todos os
+	 * possï¿½veis erros.
 	 * 
-	 * Utilizando tambï¿½m o lanï¿½amento de exceï¿½ï¿½o, onde faz com que o JUnit
-	 * faz todo o tratamento da exceï¿½ï¿½o
+	 * Utilizando tambï¿½m o lanï¿½amento de exceï¿½ï¿½o, onde faz com que o JUnit faz todo
+	 * o tratamento da exceï¿½ï¿½o
 	 * 
 	 * @throws Exception
 	 */
@@ -135,10 +183,10 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste passando uma exception na anotaï¿½ï¿½o, onde o teste vai ser validado
-	 * se realmente for lanï¿½ado a exceï¿½ï¿½o esperada e somente deve ser usado
-	 * quando realmente tiver certeza do retorno da exceï¿½ï¿½o esperada, uma forma
-	 * mais elegante
+	 * Teste passando uma exception na anotaï¿½ï¿½o, onde o teste vai ser validado se
+	 * realmente for lanï¿½ado a exceï¿½ï¿½o esperada e somente deve ser usado quando
+	 * realmente tiver certeza do retorno da exceï¿½ï¿½o esperada, uma forma mais
+	 * elegante
 	 * 
 	 * JUnit faz todo tratamento de exceï¿½ï¿½o.
 	 * 
@@ -147,15 +195,14 @@ public class LocacaoServiceTest {
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void testeNaoDeveAlugarFilmeSemEstoque() throws Exception {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+		List<Filme> listFilmes = Arrays.asList(umFilme().novoFilmeSemEstoque2().novoFilme());
 
 		locacaoService.alugarFilme(usuario, listFilmes);
 	}
 
 	/**
-	 * Mesma finalidade do mï¿½todo testeLocacaoFilmeSemEstoque, porï¿½m aqui
-	 * tratamos a exceï¿½ï¿½o de forma mais clara no prï¿½prio cï¿½digo, uma forma
-	 * mais robusta.
+	 * Mesma finalidade do mï¿½todo testeLocacaoFilmeSemEstoque, porï¿½m aqui tratamos a
+	 * exceï¿½ï¿½o de forma mais clara no prï¿½prio cï¿½digo, uma forma mais robusta.
 	 * 
 	 * Instrutor recomenda usar essa forma, pelo fato de ser mais completa, ou seja,
 	 * robusta.
@@ -179,8 +226,8 @@ public class LocacaoServiceTest {
 //	}
 
 	/**
-	 * Teste utilizando ExpectedException, onde dizemos qual exceï¿½ï¿½o ï¿½
-	 * esperada a ser lanï¿½ada e qual o tipo de mensagem de retorno
+	 * Teste utilizando ExpectedException, onde dizemos qual exceï¿½ï¿½o ï¿½ esperada a
+	 * ser lanï¿½ada e qual o tipo de mensagem de retorno
 	 * 
 	 * JUnit faz todo tratamento de exceï¿½ï¿½o.
 	 * 
@@ -204,8 +251,8 @@ public class LocacaoServiceTest {
 	 * passa a prï¿½pria exception customizada no programa, e nï¿½o uma simples
 	 * exception genï¿½rica
 	 * 
-	 * Teste passando uma exception na anotaï¿½ï¿½o, onde o teste vai ser validado
-	 * se realmente for lanï¿½ado a exceï¿½ï¿½o esperada.
+	 * Teste passando uma exception na anotaï¿½ï¿½o, onde o teste vai ser validado se
+	 * realmente for lanï¿½ado a exceï¿½ï¿½o esperada.
 	 * 
 	 * JUnit faz todo tratamento de exceï¿½ï¿½o.
 	 * 
@@ -214,7 +261,7 @@ public class LocacaoServiceTest {
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void testeNaoDeveAlugarFilmeSemEstoque4() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+		List<Filme> listFilmes = Arrays.asList(umFilme().novoFilmeSemEstoque2().novoFilme());
 
 		locacaoService.alugarFilme(usuario, listFilmes);
 	}
@@ -262,8 +309,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o
-	 * desconto de 25%.
+	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o desconto
+	 * de 25%.
 	 * 
 	 * @throws Exception
 	 */
@@ -283,21 +330,21 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o
-	 * desconto de 50%.
+	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o desconto
+	 * de 50%.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testePagarCom50PorcentoDeDesconto4Filme() throws FilmeSemEstoqueException, LocadoraException {
-		Usuario usuario = new Usuario("Isabelle Fernandes de Campos");
+		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		Locacao locacao;
 
-		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
-		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
-		listFilmes.add(new Filme("Busca ImplacÃ¡vel1", 10, 6.50));
-		listFilmes.add(new Filme("Busca ImplacÃ¡vel2", 10, 6.50));
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
 
 		locacao = locacaoService.alugarFilme(usuario, listFilmes);
 
@@ -305,8 +352,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o
-	 * desconto de 75%.
+	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o desconto
+	 * de 75%.
 	 * 
 	 * @throws Exception
 	 */
@@ -329,23 +376,23 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o
-	 * desconto de 100%.
+	 * Teste que valida se o valor total a pagar estÃ¡ sendo calculado com o desconto
+	 * de 100%.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testePagarCom100PorcentoDeDesconto6Filme() throws FilmeSemEstoqueException, LocadoraException {
-		Usuario usuario = new Usuario("Luiz Souza");
+		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		Locacao locacao;
 
-		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
-		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
-		listFilmes.add(new Filme("Busca ImplacÃ¡vel 1", 10, 6.50));
-		listFilmes.add(new Filme("A Era do Gelo 1", 10, 6.50));
-		listFilmes.add(new Filme("Need for Speed", 10, 6.50));
-		listFilmes.add(new Filme("Quarto de Guerra", 10, 6.50));
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
+		listFilmes.add(umFilme().novoFilme());
 
 		locacao = locacaoService.alugarFilme(usuario, listFilmes);
 
@@ -373,10 +420,10 @@ public class LocacaoServiceTest {
 
 		Assert.assertTrue(eSegunda);
 
-		// Validação com Matcher
+		// Validaï¿½ï¿½o com Matcher
 		assertThat(locacao.getDataRetorno(), new DiaSemanaMatcher(Calendar.MONDAY));
 
-		// Validação com matcher próprio
+		// Validaï¿½ï¿½o com matcher prï¿½prio
 		assertThat(locacao.getDataRetorno(), caiEm(Calendar.MONDAY));
 		assertThat(locacao.getDataRetorno(), caiNumaSegunda());
 
