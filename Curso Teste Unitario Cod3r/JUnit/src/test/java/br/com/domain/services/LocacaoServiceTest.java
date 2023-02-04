@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
-import br.com.domain.builders.FilmeBuilder;
 import br.com.domain.builders.UsuarioBuilder;
 import br.com.domain.entities.Filme;
 import br.com.domain.entities.Locacao;
@@ -38,6 +37,7 @@ import br.com.domain.exceptions.FilmeSemEstoqueException;
 import br.com.domain.exceptions.LocadoraException;
 import br.com.domain.matchers.DiaSemanaMatcher;
 import br.com.domain.utils.DataUtils;
+import buildermaster.BuilderMaster;
 
 public class LocacaoServiceTest {
 
@@ -111,7 +111,8 @@ public class LocacaoServiceTest {
 			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
 			errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -156,7 +157,8 @@ public class LocacaoServiceTest {
 			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
 			errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -284,7 +286,8 @@ public class LocacaoServiceTest {
 		try {
 			locacaoService.alugarFilme(null, listFilmes);
 			Assert.fail();
-		} catch (LocadoraException e) {
+		} 
+		catch (LocadoraException e) {
 			assertThat(e.getMessage(), is("Usu�rio obrigat�rio"));
 		}
 	}
@@ -427,6 +430,10 @@ public class LocacaoServiceTest {
 		assertThat(locacao.getDataRetorno(), caiEm(Calendar.MONDAY));
 		assertThat(locacao.getDataRetorno(), caiNumaSegunda());
 
+	}
+
+	public static void main(String[] args) {
+		new BuilderMaster().gerarCodigoClasse(Locacao.class);
 	}
 
 }
