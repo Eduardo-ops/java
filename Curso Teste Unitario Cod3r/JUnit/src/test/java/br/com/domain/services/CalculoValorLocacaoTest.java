@@ -22,6 +22,10 @@ import br.com.domain.entities.Usuario;
 import br.com.domain.exceptions.FilmeSemEstoqueException;
 import br.com.domain.exceptions.LocadoraException;
 
+/**
+ * Classe responsável por realizar a bateria de testes de forma automatizada,
+ * sobre a RN de porcentagem de descontos nos filmes alugados.
+ */
 @RunWith(Parameterized.class)
 public class CalculoValorLocacaoTest {
 
@@ -57,8 +61,8 @@ public class CalculoValorLocacaoTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o
-	 * desconto de acordo com os parametros
+	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
+	 * de acordo com os parametros
 	 * 
 	 * @throws Exception
 	 */
