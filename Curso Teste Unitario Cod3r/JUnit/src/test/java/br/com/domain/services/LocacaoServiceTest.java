@@ -4,8 +4,6 @@ import static br.com.domain.builders.FilmeBuilder.umFilme;
 import static br.com.domain.builders.UsuarioBuilder.umUsuario;
 import static br.com.domain.matchers.MatchersProprios.caiEm;
 import static br.com.domain.matchers.MatchersProprios.caiNumaSegunda;
-import static br.com.domain.matchers.MatchersProprios.eHoje;
-import static br.com.domain.matchers.MatchersProprios.eHojeComDiferencaDias;
 import static br.com.domain.utils.DataUtils.isMesmaData;
 import static br.com.domain.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -30,6 +28,8 @@ import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
 import br.com.domain.builders.UsuarioBuilder;
+import br.com.domain.dao.LocacaoDAO;
+import br.com.domain.dao.LocacaoDAOFake;
 import br.com.domain.entities.Filme;
 import br.com.domain.entities.Locacao;
 import br.com.domain.entities.Usuario;
@@ -53,6 +53,8 @@ public class LocacaoServiceTest {
 	public void setup() {
 		System.out.println("Before");
 		locacaoService = new LocacaoService();
+		LocacaoDAO locacaoDAO = new LocacaoDAOFake();
+		locacaoService.setLocacaoDAO(locacaoDAO);
 	}
 
 	@After

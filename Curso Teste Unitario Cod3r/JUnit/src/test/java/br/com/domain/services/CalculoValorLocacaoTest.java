@@ -3,19 +3,19 @@ package br.com.domain.services;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+
+import br.com.domain.dao.LocacaoDAO;
+import br.com.domain.dao.LocacaoDAOFake;
 import br.com.domain.entities.Filme;
 import br.com.domain.entities.Locacao;
 import br.com.domain.entities.Usuario;
@@ -43,6 +43,8 @@ public class CalculoValorLocacaoTest {
 	@Before
 	public void setup() {
 		locacaoService = new LocacaoService();
+		LocacaoDAO locacaoDAO = new LocacaoDAOFake();
+		this.locacaoService.setLocacaoDAO(locacaoDAO);
 	}
 
 	private static Filme filme1 = new Filme("filme1", 5, 4.0);
