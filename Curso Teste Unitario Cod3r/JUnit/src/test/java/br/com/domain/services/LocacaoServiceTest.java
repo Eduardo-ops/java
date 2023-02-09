@@ -26,6 +26,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 import br.com.domain.builders.UsuarioBuilder;
 import br.com.domain.dao.LocacaoDAO;
@@ -53,8 +54,9 @@ public class LocacaoServiceTest {
 	public void setup() {
 		System.out.println("Before");
 		locacaoService = new LocacaoService();
-		LocacaoDAO locacaoDAO = new LocacaoDAOFake();
-		locacaoService.setLocacaoDAO(locacaoDAO);
+		//LocacaoDAO locacaoDAO = new LocacaoDAOFake();
+		LocacaoDAO locacaoDAO = Mockito.mock(LocacaoDAO.class);
+		this.locacaoService.setLocacaoDAO(locacaoDAO);
 	}
 
 	@After
