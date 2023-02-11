@@ -17,6 +17,7 @@ import br.com.domain.utils.DataUtils;
 public class LocacaoService {
 
 	private LocacaoDAO locacaoDAO;
+	private SPCService spcService;
 
 	public Locacao alugarFilme(Usuario usuario, List<Filme> listFilmes)
 			throws FilmeSemEstoqueException, LocadoraException {
@@ -36,6 +37,12 @@ public class LocacaoService {
 				// throw new FilmeSemEstoqueException();
 				throw new FilmeSemEstoqueException();
 			}
+		}
+
+		// RN SPC
+		if (spcService.posssuiNegativacao(usuario)) {
+			throw new LocadoraException(
+					"Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
 		}
 
 		Locacao locacao = new Locacao();
@@ -83,5 +90,9 @@ public class LocacaoService {
 
 	public void setLocacaoDAO(LocacaoDAO locacaoDAO) {
 		this.locacaoDAO = locacaoDAO;
+	}
+
+	public void setSpcService(SPCService spcService) {
+		this.spcService = spcService;
 	}
 }
