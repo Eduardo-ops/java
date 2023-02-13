@@ -84,6 +84,8 @@ public class LocacaoServiceTest {
 		// Cenario
 		Usuario usuario = new Usuario("Eduardo Isidoro Gon�alves");
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
 		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
@@ -130,6 +132,8 @@ public class LocacaoServiceTest {
 		// Cenario
 		Usuario usuario = umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		listFilmes.add(umFilme().novoFilme());
 		listFilmes.add(umFilme().novoFilme());
@@ -181,6 +185,8 @@ public class LocacaoServiceTest {
 	public void testeDeveAlugarFilmeComErrorCollector() throws Exception {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 2, 6.50));
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		Locacao locacao = locacaoService.alugarFilme(usuario, listFilmes);
 
@@ -204,6 +210,8 @@ public class LocacaoServiceTest {
 	public void testeNaoDeveAlugarFilmeSemEstoque() throws Exception {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		List<Filme> listFilmes = Arrays.asList(umFilme().novoFilmeSemEstoque2().novoFilme());
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		locacaoService.alugarFilme(usuario, listFilmes);
 	}
@@ -271,6 +279,8 @@ public class LocacaoServiceTest {
 	public void testeNaoDeveAlugarFilmeSemEstoque4() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		List<Filme> listFilmes = Arrays.asList(umFilme().novoFilmeSemEstoque2().novoFilme());
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		locacaoService.alugarFilme(usuario, listFilmes);
 	}
@@ -286,6 +296,8 @@ public class LocacaoServiceTest {
 	@Test
 	public void testeNaoDeveAlugarFilmeSemUsuario() throws FilmeSemEstoqueException {
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
 		listFilmes.add(new Filme("Avatar 2", 10, 6.50));
@@ -308,6 +320,8 @@ public class LocacaoServiceTest {
 	public void testeNaoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		listFilmes.add(null);
 		listFilmes.add(null);
@@ -328,6 +342,8 @@ public class LocacaoServiceTest {
 	public void testePagarCom25PorcentoDeDesconto3Filme() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = new Usuario("Isabelle Fernandes de Campos");
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 		Locacao locacao;
 
 		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
@@ -349,6 +365,8 @@ public class LocacaoServiceTest {
 	public void testePagarCom50PorcentoDeDesconto4Filme() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 		Locacao locacao;
 
 		listFilmes.add(umFilme().novoFilme());
@@ -371,6 +389,8 @@ public class LocacaoServiceTest {
 	public void testePagarCom75PorcentoDeDesconto5Filme() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = new Usuario("Luiz Souza");
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 		Locacao locacao;
 
 		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
@@ -395,6 +415,8 @@ public class LocacaoServiceTest {
 	public void testePagarCom100PorcentoDeDesconto6Filme() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 		Locacao locacao;
 
 		listFilmes.add(umFilme().novoFilme());
@@ -421,6 +443,8 @@ public class LocacaoServiceTest {
 
 		Usuario usuario = new Usuario("Luiz Souza");
 		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
 
@@ -453,6 +477,7 @@ public class LocacaoServiceTest {
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		Locacao locacao;
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
 
 		listFilmes.add(umFilme().novoFilme());
 
