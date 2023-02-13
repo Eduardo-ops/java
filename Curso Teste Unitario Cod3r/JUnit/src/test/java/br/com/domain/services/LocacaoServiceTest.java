@@ -490,8 +490,4 @@ public class LocacaoServiceTest {
 		locacao = locacaoService.alugarFilme(usuario, listFilmes);
 	}
 
-//	public static void main(String[] args) {
-//		new BuilderMaster().gerarCodigoClasse(Locacao.class);
-//	}
-
 }
