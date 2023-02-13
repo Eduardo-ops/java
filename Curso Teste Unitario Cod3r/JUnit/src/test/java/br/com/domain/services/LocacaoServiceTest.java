@@ -30,7 +30,6 @@ import org.mockito.Mockito;
 
 import br.com.domain.builders.UsuarioBuilder;
 import br.com.domain.dao.LocacaoDAO;
-import br.com.domain.dao.LocacaoDAOFake;
 import br.com.domain.entities.Filme;
 import br.com.domain.entities.Locacao;
 import br.com.domain.entities.Usuario;
@@ -38,7 +37,7 @@ import br.com.domain.exceptions.FilmeSemEstoqueException;
 import br.com.domain.exceptions.LocadoraException;
 import br.com.domain.matchers.DiaSemanaMatcher;
 import br.com.domain.utils.DataUtils;
-import buildermaster.BuilderMaster;
+//import buildermaster.BuilderMaster;
 
 public class LocacaoServiceTest {
 
@@ -144,13 +143,15 @@ public class LocacaoServiceTest {
 			// Validacao modo 1
 			Assert.assertEquals(13, locacao.getValor(), 0.01);
 			Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
-			//Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
+			// Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(),
+			// DataUtils.obterDataComDiferencaDias(1)));
 
 			// Validacao modo 2 - Fluent Interface
 			assertThat(locacao.getValor(), is(equalTo(13.0)));
 			// assertThat(locacao.getValor(), is(no));
 			assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-			//assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+			// assertThat(isMesmaData(locacao.getDataRetorno(),
+			// obterDataComDiferencaDias(1)), is(true));
 
 			// Valida��o modo - errors
 //			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
@@ -160,19 +161,19 @@ public class LocacaoServiceTest {
 			// Validacao modo matcher pr�prios
 			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
 			errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-			//errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} 
-		catch (Exception e) {
+			// errors.checkThat(isMesmaData(locacao.getDataRetorno(),
+			// obterDataComDiferencaDias(1)), is(true));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Teste com utiliza�ao ErrorCollector, onde nos possibilita verificar todos os
-	 * poss�veis erros.
+	 * Teste com utiliza�ao ErrorCollector, onde nos possibilita verificar todos
+	 * os poss�veis erros.
 	 * 
-	 * Utilizando tamb�m o lan�amento de exce��o, onde faz com que o JUnit faz todo
-	 * o tratamento da exce��o
+	 * Utilizando tamb�m o lan�amento de exce��o, onde faz com que o JUnit
+	 * faz todo o tratamento da exce��o
 	 * 
 	 * @throws Exception
 	 */
@@ -185,14 +186,15 @@ public class LocacaoServiceTest {
 
 		errors.checkThat(locacao.getValor(), is(equalTo(6.50)));
 		errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-		//errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+		// errors.checkThat(isMesmaData(locacao.getDataRetorno(),
+		// obterDataComDiferencaDias(1)), is(true));
 	}
 
 	/**
-	 * Teste passando uma exception na anota��o, onde o teste vai ser validado se
-	 * realmente for lan�ado a exce��o esperada e somente deve ser usado quando
-	 * realmente tiver certeza do retorno da exce��o esperada, uma forma mais
-	 * elegante
+	 * Teste passando uma exception na anota��o, onde o teste vai ser validado
+	 * se realmente for lan�ado a exce��o esperada e somente deve ser usado
+	 * quando realmente tiver certeza do retorno da exce��o esperada, uma forma
+	 * mais elegante
 	 * 
 	 * JUnit faz todo tratamento de exce��o.
 	 * 
@@ -207,8 +209,9 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Mesma finalidade do m�todo testeLocacaoFilmeSemEstoque, por�m aqui tratamos a
-	 * exce��o de forma mais clara no pr�prio c�digo, uma forma mais robusta.
+	 * Mesma finalidade do m�todo testeLocacaoFilmeSemEstoque, por�m aqui
+	 * tratamos a exce��o de forma mais clara no pr�prio c�digo, uma forma
+	 * mais robusta.
 	 * 
 	 * Instrutor recomenda usar essa forma, pelo fato de ser mais completa, ou seja,
 	 * robusta.
@@ -232,8 +235,8 @@ public class LocacaoServiceTest {
 //	}
 
 	/**
-	 * Teste utilizando ExpectedException, onde dizemos qual exce��o � esperada a
-	 * ser lan�ada e qual o tipo de mensagem de retorno
+	 * Teste utilizando ExpectedException, onde dizemos qual exce��o �
+	 * esperada a ser lan�ada e qual o tipo de mensagem de retorno
 	 * 
 	 * JUnit faz todo tratamento de exce��o.
 	 * 
@@ -257,8 +260,8 @@ public class LocacaoServiceTest {
 	 * passa a pr�pria exception customizada no programa, e n�o uma simples
 	 * exception gen�rica
 	 * 
-	 * Teste passando uma exception na anota��o, onde o teste vai ser validado se
-	 * realmente for lan�ado a exce��o esperada.
+	 * Teste passando uma exception na anota��o, onde o teste vai ser validado
+	 * se realmente for lan�ado a exce��o esperada.
 	 * 
 	 * JUnit faz todo tratamento de exce��o.
 	 * 
@@ -316,8 +319,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
-	 * de 25%.
+	 * Teste que valida se o valor total a pagar está sendo calculado com o
+	 * desconto de 25%.
 	 * 
 	 * @throws Exception
 	 */
@@ -337,8 +340,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
-	 * de 50%.
+	 * Teste que valida se o valor total a pagar está sendo calculado com o
+	 * desconto de 50%.
 	 * 
 	 * @throws Exception
 	 */
@@ -359,8 +362,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
-	 * de 75%.
+	 * Teste que valida se o valor total a pagar está sendo calculado com o
+	 * desconto de 75%.
 	 * 
 	 * @throws Exception
 	 */
@@ -383,8 +386,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
-	 * de 100%.
+	 * Teste que valida se o valor total a pagar está sendo calculado com o
+	 * desconto de 100%.
 	 * 
 	 * @throws Exception
 	 */
@@ -436,8 +439,34 @@ public class LocacaoServiceTest {
 
 	}
 
-	public static void main(String[] args) {
-		new BuilderMaster().gerarCodigoClasse(Locacao.class);
+	/**
+	 * Teste que valida RN de usuario negativado no SPC
+	 * 
+	 * @throws LocadoraException
+	 * @throws FilmeSemEstoqueException
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testeNaoDeveAlugarFilmeParaUsuarioNegativadoNoSpc() throws FilmeSemEstoqueException, LocadoraException {
+		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
+		List<Filme> listFilmes = new ArrayList<Filme>();
+		Locacao locacao;
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+
+		listFilmes.add(umFilme().novoFilme());
+
+		Mockito.when(mockSpcService.posssuiNegativacao(usuario)).thenReturn(true);
+
+		expectedException.expect(LocadoraException.class);
+		expectedException.expectMessage(
+				"Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
+
+		locacao = locacaoService.alugarFilme(usuario, listFilmes);
 	}
+
+//	public static void main(String[] args) {
+//		new BuilderMaster().gerarCodigoClasse(Locacao.class);
+//	}
 
 }
