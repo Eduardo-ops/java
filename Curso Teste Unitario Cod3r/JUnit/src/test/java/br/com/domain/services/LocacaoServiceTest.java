@@ -280,7 +280,7 @@ public class LocacaoServiceTest {
 	 * @throws Exception
 	 */
 	@Test(expected = FilmeSemEstoqueException.class)
-	public void testeNaoDeveAlugarFilmeSemEstoque4() throws FilmeSemEstoqueException, LocadoraException {
+	public void testeNaoDeveAlugarFilmeSemEstoque4() throws FilmeSemEstoqueException, LocadoraException, Exception {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		List<Filme> listFilmes = Arrays.asList(umFilme().novoFilmeSemEstoque2().novoFilme());
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -298,7 +298,7 @@ public class LocacaoServiceTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testeNaoDeveAlugarFilmeSemUsuario() throws FilmeSemEstoqueException {
+	public void testeNaoDeveAlugarFilmeSemUsuario() throws FilmeSemEstoqueException, Exception {
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
 		this.locacaoService.setSpcService(mockSpcService);
@@ -321,7 +321,7 @@ public class LocacaoServiceTest {
 	 * @throws Exception
 	 */
 	@Test()
-	public void testeNaoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException {
+	public void testeNaoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException, Exception {
 		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -343,7 +343,7 @@ public class LocacaoServiceTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testePagarCom25PorcentoDeDesconto3Filme() throws FilmeSemEstoqueException, LocadoraException {
+	public void testePagarCom25PorcentoDeDesconto3Filme() throws FilmeSemEstoqueException, LocadoraException, Exception {
 		Usuario usuario = new Usuario("Isabelle Fernandes de Campos");
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -366,7 +366,7 @@ public class LocacaoServiceTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testePagarCom50PorcentoDeDesconto4Filme() throws FilmeSemEstoqueException, LocadoraException {
+	public void testePagarCom50PorcentoDeDesconto4Filme() throws FilmeSemEstoqueException, LocadoraException, Exception {
 		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -390,7 +390,7 @@ public class LocacaoServiceTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testePagarCom75PorcentoDeDesconto5Filme() throws FilmeSemEstoqueException, LocadoraException {
+	public void testePagarCom75PorcentoDeDesconto5Filme() throws Exception {
 		Usuario usuario = new Usuario("Luiz Souza");
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -416,7 +416,7 @@ public class LocacaoServiceTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testePagarCom100PorcentoDeDesconto6Filme() throws FilmeSemEstoqueException, LocadoraException {
+	public void testePagarCom100PorcentoDeDesconto6Filme() throws FilmeSemEstoqueException, LocadoraException, Exception {
 		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -441,7 +441,7 @@ public class LocacaoServiceTest {
 	 * @throws void
 	 */
 	@Test
-	public void testeDeveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException {
+	public void testeDeveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException, Exception {
 		// Uma forma de garantir que considere o teste apenas quando o dia for sábado
 		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 
@@ -474,7 +474,7 @@ public class LocacaoServiceTest {
 	 * @throws FilmeSemEstoqueException.
 	 */
 	@Test
-	public void testeNaoDeveAlugarFilmeParaUsuarioNegativadoNoSpc() throws FilmeSemEstoqueException {
+	public void testeNaoDeveAlugarFilmeParaUsuarioNegativadoNoSpc() throws FilmeSemEstoqueException, Exception {
 		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		Locacao locacao;
@@ -488,6 +488,7 @@ public class LocacaoServiceTest {
 
 		try {
 			locacao = locacaoService.alugarFilme(usuario, listFilmes);
+			Assert.fail();
 		}
 		catch (LocadoraException e) {
 			Assert.assertThat(e.getMessage(), is("Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais."));
@@ -537,6 +538,32 @@ public class LocacaoServiceTest {
 		Mockito.verify(mockEmailService, Mockito.atLeastOnce()).notificarAtraso(usuario1);
 		Mockito.verify(mockEmailService, Mockito.times(2)).notificarAtraso(Mockito.any(Usuario.class));
 		Mockito.verifyNoMoreInteractions(mockEmailService);
+	}
+	
+	@Test
+	public void testeExceptionNaoDeveAlugarFilmeParaUsuarioNegativadoNoSpc () throws Exception {
+		LocacaoService locacaoService = new LocacaoService();
+		Usuario usuario = new Usuario();
+		Filme filme = new Filme();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
+		
+		usuario.setNome("Marcos da Conceição");
+		
+		filme.setNome("Quebrando Regras");
+		filme.setEstoque(10);
+		filme.setPrecoLocacao(6.50);
+		
+		List<Filme> listFilmes = Arrays.asList(filme);
+		
+		Mockito.when(mockSpcService.posssuiNegativacao(usuario))
+			.thenThrow(new Exception("Falha ao verificar se usuário está negativado no SPC"));
+		
+		expectedException.expect(LocadoraException.class);
+		expectedException.expectMessage("Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
+		
+		locacaoService.alugarFilme(usuario, listFilmes);
+	
 	}
 
 }

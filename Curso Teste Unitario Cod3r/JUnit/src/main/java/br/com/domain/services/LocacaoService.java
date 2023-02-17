@@ -40,10 +40,18 @@ public class LocacaoService {
 			}
 		}
 
+		boolean usuarioNegativado;
+		
 		// RN SPC
-		if (spcService.posssuiNegativacao(usuario)) {
-			throw new LocadoraException(
-					"Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
+		try {
+			usuarioNegativado = spcService.posssuiNegativacao(usuario);
+		}
+		catch (Exception e) {
+			throw new LocadoraException("Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
+		}
+		
+		if (usuarioNegativado) {
+			throw new LocadoraException("Usuário Negativado.");
 		}
 
 		Locacao locacao = new Locacao();
