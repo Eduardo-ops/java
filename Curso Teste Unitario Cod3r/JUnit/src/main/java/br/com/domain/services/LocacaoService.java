@@ -109,6 +109,24 @@ public class LocacaoService {
 			}
 		}
 	}
+	
+	/**
+	 * Método que permite prorrogar locacao.
+	 * 
+	 * @param locacao
+	 * @param dias
+	 */
+	public void prorrogarLocacao(Locacao locacao, int dias) {
+		Locacao novaLocacao = new Locacao();
+		
+		novaLocacao.setUsuario(locacao.getUsuario());
+		novaLocacao.setFilme(locacao.getFilme());
+		novaLocacao.setDataLocacao(locacao.getDataLocacao());
+		novaLocacao.setDataRetorno(DataUtils.obterDataComDiferencaDias(dias));
+		novaLocacao.setValor(locacao.getValor() * dias);
+		
+		locacaoDAO.salvar(novaLocacao);
+	}
 
 	public void setLocacaoDAO(LocacaoDAO locacaoDAO) {
 		this.locacaoDAO = locacaoDAO;
@@ -117,7 +135,7 @@ public class LocacaoService {
 	public void setSpcService(SPCService spcService) {
 		this.spcService = spcService;
 	}
-	
+
 	public void setEmailService(EmailService emailService) {
 		this.emailService = emailService;
 	}

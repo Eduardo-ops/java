@@ -27,8 +27,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+import br.com.domain.builders.FilmeBuilder;
 import br.com.domain.builders.LocacaoBuilder;
 import br.com.domain.builders.UsuarioBuilder;
 import br.com.domain.dao.LocacaoDAO;
@@ -38,6 +40,7 @@ import br.com.domain.entities.Usuario;
 import br.com.domain.exceptions.FilmeSemEstoqueException;
 import br.com.domain.exceptions.LocadoraException;
 import br.com.domain.matchers.DiaSemanaMatcher;
+import br.com.domain.matchers.MatchersProprios;
 import br.com.domain.utils.DataUtils;
 //import buildermaster.BuilderMaster;
 
@@ -196,8 +199,8 @@ public class LocacaoServiceTest {
 
 		errors.checkThat(locacao.getValor(), is(equalTo(6.50)));
 		errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-		// errors.checkThat(isMesmaData(locacao.getDataRetorno(),
-		// obterDataComDiferencaDias(1)), is(true));
+//		 errors.checkThat(isMesmaData(locacao.getDataRetorno(),
+//		 obterDataComDiferencaDias(1)), is(true));
 	}
 
 	/**
@@ -541,7 +544,7 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void testeExceptionNaoDeveAlugarFilmeParaUsuarioNegativadoNoSpc () throws Exception {
+	public void testeExceptionNaoDeveAlugarFilmeParaUsuarioNegativadoNoSpc () throws Exception { 
 		LocacaoService locacaoService = new LocacaoService();
 		Usuario usuario = new Usuario();
 		Filme filme = new Filme();
@@ -565,5 +568,28 @@ public class LocacaoServiceTest {
 		locacaoService.alugarFilme(usuario, listFilmes);
 	
 	}
+	
+	
+	/**
+	 * Testa o método prorrogarLocacao.
+	 * 
+	 * @throws FilmeSemEstoqueException
+	 * @throws LocadoraException
+	 */
+	@Test
+	public void testeProrrogarLocacao () throws FilmeSemEstoqueException, LocadoraException {
+		Locacao locacao = LocacaoBuilder.umaLocacao().novaLocacao();
+		
+		locacaoService.prorrogarLocacao(locacao, 3);
+		
+		ArgumentCaptor<Locacao> argumentCaptor = ArgumentCaptor.forClass(Locacao.class);
+		
+		Mockito.verify(locacaoDAO).salvar(argumentCaptor.capture());
+		Locacao locacaoRetornada = argumentCaptor.getValue();
+		
+		errors.checkThat(locacaoRetornada.getValor(), is(19.5));
+		errors.checkThat(locacaoRetornada.getDataLocacao(), MatchersProprios.eHoje());
+		errors.checkThat(locacaoRetornada.getDataRetorno(), MatchersProprios.eHojeComDiferencaDias(3));
 
+	}
 }

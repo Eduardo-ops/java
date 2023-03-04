@@ -1,5 +1,7 @@
 package br.com.domain.matchers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.hamcrest.Description;
@@ -16,7 +18,9 @@ public class DataDiferenteDiasMatcher extends TypeSafeMatcher<Date> {
 	}
 
 	public void describeTo(Description description) {
-
+		Date dataEsperada = DataUtils.obterDataComDiferencaDias(qtdDias);
+		DateFormat format = new SimpleDateFormat("dd/MM/YYYY");
+		description.appendText(format.format(dataEsperada));
 	}
 
 	@Override
