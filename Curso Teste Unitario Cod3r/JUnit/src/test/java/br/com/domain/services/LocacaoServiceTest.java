@@ -27,10 +27,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import br.com.domain.builders.FilmeBuilder;
 import br.com.domain.builders.LocacaoBuilder;
 import br.com.domain.builders.UsuarioBuilder;
 import br.com.domain.dao.LocacaoDAO;
@@ -44,10 +47,12 @@ import br.com.domain.matchers.MatchersProprios;
 import br.com.domain.utils.DataUtils;
 //import buildermaster.BuilderMaster;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(LocacaoService.class)
 public class LocacaoServiceTest {
 
 	private LocacaoService locacaoService;
-	
+
 	private LocacaoDAO locacaoDAO;
 
 	@Rule
@@ -60,7 +65,7 @@ public class LocacaoServiceTest {
 	public void setup() {
 		System.out.println("Before");
 		locacaoService = new LocacaoService();
-		//LocacaoDAO locacaoDAO = new LocacaoDAOFake();
+		// LocacaoDAO locacaoDAO = new LocacaoDAOFake();
 		locacaoDAO = Mockito.mock(LocacaoDAO.class);
 		this.locacaoService.setLocacaoDAO(locacaoDAO);
 	}
@@ -123,8 +128,7 @@ public class LocacaoServiceTest {
 			errors.checkThat(locacao.getValor(), is(equalTo(13.0)));
 			errors.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 			errors.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -180,11 +184,11 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste com utiliza�ao ErrorCollector, onde nos possibilita verificar todos
-	 * os poss�veis erros.
+	 * Teste com utiliza�ao ErrorCollector, onde nos possibilita verificar todos os
+	 * poss�veis erros.
 	 * 
-	 * Utilizando tamb�m o lan�amento de exce��o, onde faz com que o JUnit
-	 * faz todo o tratamento da exce��o
+	 * Utilizando tamb�m o lan�amento de exce��o, onde faz com que o JUnit faz todo
+	 * o tratamento da exce��o
 	 * 
 	 * @throws Exception
 	 */
@@ -204,10 +208,10 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste passando uma exception na anota��o, onde o teste vai ser validado
-	 * se realmente for lan�ado a exce��o esperada e somente deve ser usado
-	 * quando realmente tiver certeza do retorno da exce��o esperada, uma forma
-	 * mais elegante
+	 * Teste passando uma exception na anota��o, onde o teste vai ser validado se
+	 * realmente for lan�ado a exce��o esperada e somente deve ser usado quando
+	 * realmente tiver certeza do retorno da exce��o esperada, uma forma mais
+	 * elegante
 	 * 
 	 * JUnit faz todo tratamento de exce��o.
 	 * 
@@ -224,9 +228,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Mesma finalidade do m�todo testeLocacaoFilmeSemEstoque, por�m aqui
-	 * tratamos a exce��o de forma mais clara no pr�prio c�digo, uma forma
-	 * mais robusta.
+	 * Mesma finalidade do m�todo testeLocacaoFilmeSemEstoque, por�m aqui tratamos a
+	 * exce��o de forma mais clara no pr�prio c�digo, uma forma mais robusta.
 	 * 
 	 * Instrutor recomenda usar essa forma, pelo fato de ser mais completa, ou seja,
 	 * robusta.
@@ -250,8 +253,8 @@ public class LocacaoServiceTest {
 //	}
 
 	/**
-	 * Teste utilizando ExpectedException, onde dizemos qual exce��o �
-	 * esperada a ser lan�ada e qual o tipo de mensagem de retorno
+	 * Teste utilizando ExpectedException, onde dizemos qual exce��o � esperada a
+	 * ser lan�ada e qual o tipo de mensagem de retorno
 	 * 
 	 * JUnit faz todo tratamento de exce��o.
 	 * 
@@ -275,8 +278,8 @@ public class LocacaoServiceTest {
 	 * passa a pr�pria exception customizada no programa, e n�o uma simples
 	 * exception gen�rica
 	 * 
-	 * Teste passando uma exception na anota��o, onde o teste vai ser validado
-	 * se realmente for lan�ado a exce��o esperada.
+	 * Teste passando uma exception na anota��o, onde o teste vai ser validado se
+	 * realmente for lan�ado a exce��o esperada.
 	 * 
 	 * JUnit faz todo tratamento de exce��o.
 	 * 
@@ -312,8 +315,7 @@ public class LocacaoServiceTest {
 		try {
 			locacaoService.alugarFilme(null, listFilmes);
 			Assert.fail();
-		} 
-		catch (LocadoraException e) {
+		} catch (LocadoraException e) {
 			assertThat(e.getMessage(), is("Usu�rio obrigat�rio"));
 		}
 	}
@@ -340,13 +342,14 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o
-	 * desconto de 25%.
+	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
+	 * de 25%.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testePagarCom25PorcentoDeDesconto3Filme() throws FilmeSemEstoqueException, LocadoraException, Exception {
+	public void testePagarCom25PorcentoDeDesconto3Filme()
+			throws FilmeSemEstoqueException, LocadoraException, Exception {
 		Usuario usuario = new Usuario("Isabelle Fernandes de Campos");
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -363,13 +366,14 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o
-	 * desconto de 50%.
+	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
+	 * de 50%.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testePagarCom50PorcentoDeDesconto4Filme() throws FilmeSemEstoqueException, LocadoraException, Exception {
+	public void testePagarCom50PorcentoDeDesconto4Filme()
+			throws FilmeSemEstoqueException, LocadoraException, Exception {
 		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -387,8 +391,8 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o
-	 * desconto de 75%.
+	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
+	 * de 75%.
 	 * 
 	 * @throws Exception
 	 */
@@ -413,13 +417,14 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Teste que valida se o valor total a pagar está sendo calculado com o
-	 * desconto de 100%.
+	 * Teste que valida se o valor total a pagar está sendo calculado com o desconto
+	 * de 100%.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testePagarCom100PorcentoDeDesconto6Filme() throws FilmeSemEstoqueException, LocadoraException, Exception {
+	public void testePagarCom100PorcentoDeDesconto6Filme()
+			throws FilmeSemEstoqueException, LocadoraException, Exception {
 		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
 		List<Filme> listFilmes = new ArrayList<Filme>();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
@@ -444,7 +449,8 @@ public class LocacaoServiceTest {
 	 * @throws void
 	 */
 	@Test
-	public void testeDeveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException, Exception {
+	public void testeDeveDevolverNaSegundaAoAlugarNoSabado()
+			throws FilmeSemEstoqueException, LocadoraException, Exception {
 		// Uma forma de garantir que considere o teste apenas quando o dia for sábado
 		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 
@@ -470,7 +476,6 @@ public class LocacaoServiceTest {
 
 	}
 
-	
 	/**
 	 * Teste que valida RN de usuario negativado no SPC.
 	 * 
@@ -486,21 +491,21 @@ public class LocacaoServiceTest {
 
 		listFilmes.add(umFilme().novoFilme());
 
-		//Mockito.when(mockSpcService.posssuiNegativacao(usuario)).thenReturn(true);
+		// Mockito.when(mockSpcService.posssuiNegativacao(usuario)).thenReturn(true);
 		Mockito.when(mockSpcService.posssuiNegativacao(Mockito.any(Usuario.class))).thenReturn(true);
 
 		try {
 			locacao = locacaoService.alugarFilme(usuario, listFilmes);
 			Assert.fail();
+		} catch (LocadoraException e) {
+			Assert.assertThat(e.getMessage(), is(
+					"Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais."));
 		}
-		catch (LocadoraException e) {
-			Assert.assertThat(e.getMessage(), is("Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais."));
-		}
-		
+
 		// Verify não se faz necessário para esse teste, mas torna-o mais seguro.
 		Mockito.verify(mockSpcService).posssuiNegativacao(usuario);
 	}
-	
+
 	/**
 	 * Teste que valida RN de notificacoes de email para locacoes atradas.
 	 */
@@ -510,28 +515,20 @@ public class LocacaoServiceTest {
 		Usuario usuario2 = UsuarioBuilder.umUsuario().ComNome("Usuario2").novoUsuario();
 		Usuario usuario3 = UsuarioBuilder.umUsuario().ComNome("Usuario3").novoUsuario();
 		List<Locacao> listLocacao = Arrays.asList(
-				LocacaoBuilder
-					.umaLocacao()
-					.comUsuario(usuario1)
-					.comDataRetorno(DataUtils.obterDataComDiferencaDias(-2))
-					.novaLocacao(),
-				LocacaoBuilder
-					.umaLocacao()
-					.comUsuario(usuario2)
-					.comDataRetorno(DataUtils.obterDataComDiferencaDias(-2))
-					.novaLocacao(),
-				LocacaoBuilder.umaLocacao()
-					.comUsuario(usuario3)
-					.novaLocacao());
+				LocacaoBuilder.umaLocacao().comUsuario(usuario1).comDataRetorno(DataUtils.obterDataComDiferencaDias(-2))
+						.novaLocacao(),
+				LocacaoBuilder.umaLocacao().comUsuario(usuario2).comDataRetorno(DataUtils.obterDataComDiferencaDias(-2))
+						.novaLocacao(),
+				LocacaoBuilder.umaLocacao().comUsuario(usuario3).novaLocacao());
 		LocacaoDAO mockLocacaoDAO = Mockito.mock(LocacaoDAO.class);
 		locacaoService.setLocacaoDAO(mockLocacaoDAO);
 		EmailService mockEmailService = Mockito.mock(EmailService.class);
 		locacaoService.setEmailService(mockEmailService);
-		
+
 		Mockito.when(mockLocacaoDAO.obterLocacoesPendentes()).thenReturn(listLocacao);
-		
+
 		locacaoService.notificarAtrasos();
-		
+
 		/*
 		 * Verify se faz necessário para a validaçao do teste, já que é o próprio método
 		 * do notificarAtraso que precisamos realizar a validação de testes.
@@ -542,54 +539,81 @@ public class LocacaoServiceTest {
 		Mockito.verify(mockEmailService, Mockito.times(2)).notificarAtraso(Mockito.any(Usuario.class));
 		Mockito.verifyNoMoreInteractions(mockEmailService);
 	}
-	
+
 	@Test
-	public void testeExceptionNaoDeveAlugarFilmeParaUsuarioNegativadoNoSpc () throws Exception { 
+	public void testeExceptionNaoDeveAlugarFilmeParaUsuarioNegativadoNoSpc() throws Exception {
 		LocacaoService locacaoService = new LocacaoService();
 		Usuario usuario = new Usuario();
 		Filme filme = new Filme();
 		SPCService mockSpcService = Mockito.mock(SPCService.class);
 		this.locacaoService.setSpcService(mockSpcService);
-		
+
 		usuario.setNome("Marcos da Conceição");
-		
+
 		filme.setNome("Quebrando Regras");
 		filme.setEstoque(10);
 		filme.setPrecoLocacao(6.50);
-		
+
 		List<Filme> listFilmes = Arrays.asList(filme);
-		
+
 		Mockito.when(mockSpcService.posssuiNegativacao(usuario))
-			.thenThrow(new Exception("Falha ao verificar se usuário está negativado no SPC"));
-		
+				.thenThrow(new Exception("Falha ao verificar se usuário está negativado no SPC"));
+
 		expectedException.expect(LocadoraException.class);
-		expectedException.expectMessage("Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
-		
+		expectedException.expectMessage(
+				"Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
+
 		locacaoService.alugarFilme(usuario, listFilmes);
-	
+
 	}
-	
-	
+
 	/**
-	 * Testa o método prorrogarLocacao.
-	 *  
+	 * Testa o método prorrogarLocacao
+	 * 
 	 * @throws FilmeSemEstoqueException
 	 * @throws LocadoraException
 	 */
 	@Test
-	public void testeProrrogarLocacao () throws FilmeSemEstoqueException, LocadoraException {
+	public void testeProrrogarLocacao() throws FilmeSemEstoqueException, LocadoraException {
 		Locacao locacao = LocacaoBuilder.umaLocacao().novaLocacao();
-		
+
 		locacaoService.prorrogarLocacao(locacao, 3);
-		
+
 		ArgumentCaptor<Locacao> argumentCaptor = ArgumentCaptor.forClass(Locacao.class);
-		
+
 		Mockito.verify(locacaoDAO).salvar(argumentCaptor.capture());
 		Locacao locacaoRetornada = argumentCaptor.getValue();
-		
+
 		errors.checkThat(locacaoRetornada.getValor(), is(19.5));
 		errors.checkThat(locacaoRetornada.getDataLocacao(), MatchersProprios.eHoje());
 		errors.checkThat(locacaoRetornada.getDataRetorno(), MatchersProprios.eHojeComDiferencaDias(3));
 
+	}
+
+	/**
+	 * Teste que valida se o filme vai ser devolvido no domingo, com o adicional de
+	 * estar mockando também, o construtor do Date
+	 * 
+	 * @throws void
+	 */
+	@Test
+	public void testeMockandoOConstrunstutorDoDate() throws Exception {
+		Usuario usuario = new Usuario("Luiz Souza");
+		List<Filme> listFilmes = new ArrayList<Filme>();
+		SPCService mockSpcService = Mockito.mock(SPCService.class);
+		this.locacaoService.setSpcService(mockSpcService);
+
+		// Mockando o construtor do Date, permitindo que o new Date, retorne uma data
+		// de nossa preferencia
+		PowerMockito.whenNew(Date.class).withNoArguments().thenReturn(DataUtils.obterData(29, 4, 2017));
+
+		listFilmes.add(new Filme("Batman Begins", 5, 6.50));
+
+		Locacao locacao = locacaoService.alugarFilme(usuario, listFilmes);
+
+		assertThat(locacao.getDataRetorno(), caiNumaSegunda());
+
+		// Verificando se o construtor foi chamado
+		PowerMockito.verifyNew(Date.class, Mockito.times(2)).withNoArguments();
 	}
 }
