@@ -572,7 +572,7 @@ public class LocacaoServiceTest {
 	
 	/**
 	 * Testa o método prorrogarLocacao.
-	 * 
+	 *  
 	 * @throws FilmeSemEstoqueException
 	 * @throws LocadoraException
 	 */
