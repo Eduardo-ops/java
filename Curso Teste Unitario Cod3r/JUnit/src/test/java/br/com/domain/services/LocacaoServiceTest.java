@@ -616,4 +616,31 @@ public class LocacaoServiceTest {
 		// Verificando se o construtor foi chamado
 		PowerMockito.verifyNew(Date.class, Mockito.times(2)).withNoArguments();
 	}
+
+	/**
+	 * Método que realiza o teste de mockar os método estáticos
+	 * 
+	 * Observação: Para este teste em específico, não tem necessidade da anotação no
+	 * início da classe, @PrepareForTest com Date.class
+	 * 
+	 * @throws FilmeSemEstoqueException
+	 * @throws LocadoraException
+	 */
+	@Test
+	public void testeGerarDateComCalendar() throws FilmeSemEstoqueException, LocadoraException {
+		Calendar calendar = Calendar.getInstance();
+
+		calendar.set(Calendar.DAY_OF_MONTH, 29);
+		calendar.set(Calendar.MONTH, Calendar.APRIL);
+		calendar.set(Calendar.YEAR, 2017);
+
+		PowerMockito.mockStatic(Calendar.class);
+		PowerMockito.when(Calendar.getInstance()).thenReturn(calendar);
+
+		this.locacaoService.gerarDateComCalendar();
+
+		PowerMockito.verifyStatic();
+		Calendar.getInstance();
+	}
+
 }

@@ -41,15 +41,15 @@ public class LocacaoService {
 		}
 
 		boolean usuarioNegativado;
-		
+
 		// RN SPC
 		try {
 			usuarioNegativado = spcService.posssuiNegativacao(usuario);
+		} catch (Exception e) {
+			throw new LocadoraException(
+					"Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
 		}
-		catch (Exception e) {
-			throw new LocadoraException("Não foi possível dar continuidade no aluguel, verifique se há alguma pendência nos dados pessoais.");
-		}
-		
+
 		if (usuarioNegativado) {
 			throw new LocadoraException("Usuário Negativado.");
 		}
@@ -96,20 +96,20 @@ public class LocacaoService {
 
 		return locacao;
 	}
-	
+
 	/**
 	 * RN que faz a notificação de atrasos.
 	 */
 	public void notificarAtrasos() {
 		List<Locacao> listLocacao = locacaoDAO.obterLocacoesPendentes();
-		
-		for (Locacao locacao: listLocacao) {
+
+		for (Locacao locacao : listLocacao) {
 			if (locacao.getDataRetorno().before(new Date())) {
 				emailService.notificarAtraso(locacao.getUsuario());
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que permite prorrogar locacao.
 	 * 
@@ -118,14 +118,26 @@ public class LocacaoService {
 	 */
 	public void prorrogarLocacao(Locacao locacao, int dias) {
 		Locacao novaLocacao = new Locacao();
-		
+
 		novaLocacao.setUsuario(locacao.getUsuario());
 		novaLocacao.setFilme(locacao.getFilme());
 		novaLocacao.setDataLocacao(locacao.getDataLocacao());
 		novaLocacao.setDataRetorno(DataUtils.obterDataComDiferencaDias(dias));
 		novaLocacao.setValor(locacao.getValor() * dias);
-		
+
 		locacaoDAO.salvar(novaLocacao);
+	}
+
+	/**
+	 * Método que gera uma data do tipo Calendar, para exemplo de Mock com metodos
+	 * estaticos
+	 * 
+	 * @return Este método retorna um data do tipo Calendar
+	 */
+	public Calendar gerarDateComCalendar() {
+		Calendar data = Calendar.getInstance();
+
+		return data;
 	}
 
 	public void setLocacaoDAO(LocacaoDAO locacaoDAO) {
