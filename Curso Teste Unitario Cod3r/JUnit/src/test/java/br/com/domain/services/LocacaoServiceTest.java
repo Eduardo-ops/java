@@ -34,6 +34,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import br.com.domain.builders.FilmeBuilder;
 import br.com.domain.builders.LocacaoBuilder;
 import br.com.domain.builders.UsuarioBuilder;
 import br.com.domain.dao.LocacaoDAO;
@@ -623,8 +624,8 @@ public class LocacaoServiceTest {
 	 * Observação: Para este teste em específico, não tem necessidade da anotação no
 	 * início da classe, @PrepareForTest com Date.class
 	 * 
-	 * @throws FilmeSemEstoqueException
-	 * @throws LocadoraException
+	 * @throws FilmeSemEstoqueException - Exception que pode retornar do método
+	 * @throws LocadoraException        - Exception que pode retornar do método
 	 */
 	@Test
 	public void testeGerarDateComCalendar() throws FilmeSemEstoqueException, LocadoraException {
@@ -641,6 +642,26 @@ public class LocacaoServiceTest {
 
 		PowerMockito.verifyStatic();
 		Calendar.getInstance();
+	}
+
+	/**
+	 * Teste do método alugarFilme, demonstrando o processo de mockar um método
+	 * private
+	 * 
+	 * @throws Exception- Exception que pode retornar do método
+	 */
+	@Test
+	public void testeDeveAlugarFilmeSemCalcularValor() throws Exception {
+		this.locacaoService = PowerMockito.spy(locacaoService);
+		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
+		List<Filme> listaFilmes = Arrays.asList(FilmeBuilder.umFilme().novoFilme());
+
+		PowerMockito.doReturn(1.0).when(this.locacaoService, "calcularValorLocacao", listaFilmes);
+
+		Locacao locacao = this.locacaoService.alugarFilme(usuario, listaFilmes);
+
+		Assert.assertEquals(locacao.getValor(), 1.0, 0.01);
+		PowerMockito.verifyPrivate(this.locacaoService).invoke("calcularValorLocacao", listaFilmes);
 	}
 
 }

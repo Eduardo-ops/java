@@ -58,26 +58,9 @@ public class LocacaoService {
 		locacao.setFilme(listFilmes);
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
-		double valorTotal = 0;
-
+		
 		// RN desconto no último filme de acordo com a quantidade
-		for (int i = 0; i < listFilmes.size(); i++) {
-			switch (i) {
-			case 2:
-				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.75);
-				break;
-			case 3:
-				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.50);
-				break;
-			case 4:
-				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.25);
-				break;
-			case 5:
-				listFilmes.get(i).setPrecoLocacao(0.0);
-			}
-
-			valorTotal = valorTotal + listFilmes.get(i).getPrecoLocacao();
-		}
+		double valorTotal = calcularValorLocacao(listFilmes);
 
 		locacao.setValor(valorTotal);
 
@@ -95,6 +78,31 @@ public class LocacaoService {
 		locacaoDAO.salvar(locacao);
 
 		return locacao;
+	}
+
+	private double calcularValorLocacao(List<Filme> listFilmes) {
+		System.out.println("Método calcularValorLocacao");
+		double valorTotal = 0;
+
+		for (int i = 0; i < listFilmes.size(); i++) {
+			switch (i) {
+			case 2:
+				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.75);
+				break;
+			case 3:
+				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.50);
+				break;
+			case 4:
+				listFilmes.get(i).setPrecoLocacao(listFilmes.get(i).getPrecoLocacao() * 0.25);
+				break;
+			case 5:
+				listFilmes.get(i).setPrecoLocacao(0.0);
+			}
+
+			valorTotal = valorTotal + listFilmes.get(i).getPrecoLocacao();
+		}
+		
+		return valorTotal;
 	}
 
 	/**
