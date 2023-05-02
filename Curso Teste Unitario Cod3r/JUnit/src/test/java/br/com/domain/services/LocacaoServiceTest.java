@@ -33,6 +33,7 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import br.com.domain.builders.FilmeBuilder;
 import br.com.domain.builders.LocacaoBuilder;
@@ -664,4 +665,20 @@ public class LocacaoServiceTest {
 		PowerMockito.verifyPrivate(this.locacaoService).invoke("calcularValorLocacao", listaFilmes);
 	}
 
+	/**
+	 * Teste do método alugarFilme, demonstrando o processo de mockar um método
+	 * private e de forma que o execute de forma diretamente
+	 * 
+	 * @throws Exception- Exception que pode retornar do método
+	 */
+	@Test
+	public void testeDeveCalcularValorLocacao() throws Exception {
+		this.locacaoService = PowerMockito.spy(locacaoService);
+		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
+		List<Filme> listaFilmes = Arrays.asList(FilmeBuilder.umFilme().novoFilme());
+
+		Double valor = (Double) Whitebox.invokeMethod(this.locacaoService, "calcularValorLocacao", listaFilmes);
+
+		Assert.assertEquals(valor, 4.0, 0.01);
+	}
 }
