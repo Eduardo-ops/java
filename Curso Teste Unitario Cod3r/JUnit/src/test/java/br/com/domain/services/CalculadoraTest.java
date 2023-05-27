@@ -1,11 +1,15 @@
 package br.com.domain.services;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import br.com.domain.exceptions.NaoPodeDividirPorZeroException;
+import br.com.domain.runners.ParallelRunnerWithJUnit4;
 import junit.framework.Assert;
 
+@RunWith(ParallelRunnerWithJUnit4.class)
 public class CalculadoraTest {
 
 	private static CalculadoraService calculadora;
@@ -13,6 +17,13 @@ public class CalculadoraTest {
 	@Before
 	public void setup() {
 		calculadora = new CalculadoraService();
+		
+		System.out.println("Iniciando...");
+	}
+	
+	@After
+	public void tearDown() {
+		System.out.println("Finalizando...");
 	}
 
 	@Test
