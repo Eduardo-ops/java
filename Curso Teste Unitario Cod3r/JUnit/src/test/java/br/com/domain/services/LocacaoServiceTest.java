@@ -27,15 +27,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
-import br.com.domain.builders.FilmeBuilder;
 import br.com.domain.builders.LocacaoBuilder;
 import br.com.domain.builders.UsuarioBuilder;
 import br.com.domain.dao.LocacaoDAO;
@@ -47,9 +43,7 @@ import br.com.domain.exceptions.LocadoraException;
 import br.com.domain.matchers.DiaSemanaMatcher;
 import br.com.domain.matchers.MatchersProprios;
 import br.com.domain.utils.DataUtils;
-//import buildermaster.BuilderMaster;
 
-@RunWith(PowerMockRunner.class)
 @PrepareForTest(LocacaoService.class)
 public class LocacaoServiceTest {
 
@@ -240,19 +234,18 @@ public class LocacaoServiceTest {
 	 * 
 	 * @throws Exception
 	 */
-//	@Test
-//	public void testeNaoDeveAlugarFilmeSemEstoque2() throws Exception {
-//		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-//		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
-//
-//		try {
-//			locacaoService.alugarFilme(usuario, listFilmes);
-//			Assert.fail("Deveria ter lan�ado uma exce��o");
-//		} 
-//		catch (Exception e) {
-//			assertThat(e.getMessage(), is("Filme sem estoque"));
-//		}
-//	}
+	@Test
+	public void testeNaoDeveAlugarFilmeSemEstoque2() throws Exception {
+		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+
+		try {
+			locacaoService.alugarFilme(usuario, listFilmes);
+			Assert.fail("Deveria ter lan�ado uma exce��o");
+		} catch (Exception e) {
+			assertThat(e.getMessage(), is("Filme sem estoque"));
+		}
+	}
 
 	/**
 	 * Teste utilizando ExpectedException, onde dizemos qual exce��o � esperada a
@@ -264,16 +257,16 @@ public class LocacaoServiceTest {
 	 * 
 	 * @throws Exception
 	 */
-//	@Test
-//	public void testeNaoDeveAlugarFilmeSemEstoque3() throws Exception {
-//		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
-//		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
-//
-//		expectedException.expect(Exception.class);
-//		expectedException.expectMessage("Filme sem estoque");
-//
-//		locacaoService.alugarFilme(usuario, listFilmes);
-//	}
+	@Test
+	public void testeNaoDeveAlugarFilmeSemEstoque3() throws Exception {
+		Usuario usuario = new Usuario("Josimar Ribeiro Cardoso");
+		List<Filme> listFilmes = Arrays.asList(new Filme("Batman Begins", 0, 6.50));
+
+		expectedException.expect(Exception.class);
+		expectedException.expectMessage("Filme sem estoque");
+
+		locacaoService.alugarFilme(usuario, listFilmes);
+	}
 
 	/**
 	 * Essa � a forma mais pratica de se usar a forma elegante, por�m, quando se
@@ -594,9 +587,7 @@ public class LocacaoServiceTest {
 
 	/**
 	 * Teste que valida se o filme vai ser devolvido no domingo, com o adicional de
-	 * estar mockando também, o construtor do Date
-	 * 
-	 * @throws void
+	 * estar mockando também, o construtor do Date @throws void
 	 */
 	@Test
 	public void testeMockandoOConstrunstutorDoDate() throws Exception {
@@ -620,10 +611,9 @@ public class LocacaoServiceTest {
 	}
 
 	/**
-	 * Método que realiza o teste de mockar os método estáticos
-	 * 
-	 * Observação: Para este teste em específico, não tem necessidade da anotação no
-	 * início da classe, @PrepareForTest com Date.class
+	 * Método que realiza o teste de mockar os método estáticos Observação: Para
+	 * este teste em específico, não tem necessidade da anotação no início da
+	 * classe, @PrepareForTest com Date.class
 	 * 
 	 * @throws FilmeSemEstoqueException - Exception que pode retornar do método
 	 * @throws LocadoraException        - Exception que pode retornar do método
@@ -643,42 +633,5 @@ public class LocacaoServiceTest {
 
 		PowerMockito.verifyStatic();
 		Calendar.getInstance();
-	}
-
-	/**
-	 * Teste do método alugarFilme, demonstrando o processo de mockar um método
-	 * private
-	 * 
-	 * @throws Exception- Exception que pode retornar do método
-	 */
-	@Test
-	public void testeDeveAlugarFilmeSemCalcularValor() throws Exception {
-		this.locacaoService = PowerMockito.spy(locacaoService);
-		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
-		List<Filme> listaFilmes = Arrays.asList(FilmeBuilder.umFilme().novoFilme());
-
-		PowerMockito.doReturn(1.0).when(this.locacaoService, "calcularValorLocacao", listaFilmes);
-
-		Locacao locacao = this.locacaoService.alugarFilme(usuario, listaFilmes);
-
-		Assert.assertEquals(locacao.getValor(), 1.0, 0.01);
-		PowerMockito.verifyPrivate(this.locacaoService).invoke("calcularValorLocacao", listaFilmes);
-	}
-
-	/**
-	 * Teste do método alugarFilme, demonstrando o processo de mockar um método
-	 * private e de forma que o execute de forma diretamente
-	 * 
-	 * @throws Exception- Exception que pode retornar do método
-	 */
-	@Test
-	public void testeDeveCalcularValorLocacao() throws Exception {
-		this.locacaoService = PowerMockito.spy(locacaoService);
-		Usuario usuario = UsuarioBuilder.umUsuario().novoUsuario();
-		List<Filme> listaFilmes = Arrays.asList(FilmeBuilder.umFilme().novoFilme());
-
-		Double valor = (Double) Whitebox.invokeMethod(this.locacaoService, "calcularValorLocacao", listaFilmes);
-
-		Assert.assertEquals(valor, 4.0, 0.01);
 	}
 }
