@@ -1,7 +1,10 @@
 package streamsparafor;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class application {
     public static void main(String[] args) {
@@ -82,6 +85,55 @@ public class application {
                 .forEach(numero -> System.out.println(numero));
 
         System.out.println(listaNumeros);
+        System.out.println("");
+
+        Long count = listaNumeros.stream()
+                .filter(numero -> numero % 2 == 0)
+                .map(numero -> numero * 10)
+                /**
+                 * Retorna o total de elementos que foi trabalhado durante o tratamento do stream.
+                 *
+                 * É uma operação final.
+                 */
+                .count();
+
+        System.out.println("Count: " + count);
+        System.out.println("");
+
+        Optional<Integer> menorValor = listaNumeros.stream()
+                .filter(numero -> numero % 2 == 0)
+                /**
+                 * Retorna o menor valor durante o tratamento do stream.
+                 *
+                 * É uma operação final.
+                 */
+                .min(Comparator.naturalOrder());
+
+        System.out.println("Menor valor da lista: " + menorValor.get());
+        System.out.println("");
+
+        Optional<Integer> maximoValor = listaNumeros.stream()
+                .filter(numero -> numero % 2 == 0)
+                /**
+                 * Retorna o maior valor durante o tratamento do stream.
+                 *
+                 * É uma operação final.
+                 */
+                .max(Comparator.naturalOrder());
+
+        System.out.println("Maior valor da lista: " + maximoValor.get());
+        System.out.println("");
+
+        List<Integer> novaListaNumeros = listaNumeros.stream()
+                .filter(numero -> numero % 2 == 0)
+                /**
+                 * Retorna uma lista do que foi trabalhado durante o tratamento do stream.
+                 *
+                 * É uma operação final.
+                 */
+                .collect(Collectors.toList());
+
+        System.out.println("Nova lista: " + novaListaNumeros);
         System.out.println("");
     }
 }
