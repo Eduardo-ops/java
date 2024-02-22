@@ -1,4 +1,4 @@
-package streamsparafor;
+package lambdastreamsoptional;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class application {
+public class StreamApplication {
 	public static void main(String[] args) {
 		/**
 		 * JAVA 8: STREAMS Streams - Fluxo de dados
