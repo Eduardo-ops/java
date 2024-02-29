@@ -2,8 +2,10 @@ package lambdastreamsoptional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,8 +14,10 @@ public class CollectApplication {
 		List<Integer> listaInteiros = Arrays.asList(1, 2, 3, 4, 5, 6);
 
 		// Fornecedor - acumulação - combinação
-		List<Integer> collectInteiros = listaInteiros.stream().collect(() -> new ArrayList<>(),
-				(arrayList, e) -> arrayList.add(e), (l1, l2) -> l1.addAll(l2));
+		List<Integer> collectInteiros = listaInteiros.stream().collect(
+				() -> new ArrayList<>(),
+				(arrayList, e) -> arrayList.add(e), 
+				(l1, l2) -> l1.addAll(l2));
 		System.out.println("Collect: " + collectInteiros);
 
 		// toList - Armazena o resultado em uma lista.
@@ -46,9 +50,28 @@ public class CollectApplication {
 		System.out.println("Collect com summarizing, maior: " + intSummaryStatistics.getMax());
 		System.out.println("Collect com summarizing, menor: " + intSummaryStatistics.getMin());
 		System.out.println("Collect com summarizing, soma: " + intSummaryStatistics.getSum());
-		
+
 		// count
 		Long count = listaInteiros.stream().filter(n -> n % 2 == 0).collect(Collectors.counting());
 		System.out.println("Collect com count: " + count);
+
+		// max/minBy
+		listaInteiros.stream().collect(Collectors.maxBy(Comparator.naturalOrder())).ifPresent(System.out::println);
+		listaInteiros.stream().collect(Collectors.minBy(Comparator.naturalOrder())).ifPresent(System.out::println);
+
+		// groupinBy
+		Map<Integer, List<Integer>> mapCollect = listaInteiros.stream().collect(Collectors.groupingBy((n) -> n % 3));
+		System.out.println("Mapeamento de números ímpares1: " + mapCollect);
+
+		// partitioningBy(True or false)
+		Map<Boolean, List<Integer>> mapCollect2 = listaInteiros.stream().collect(Collectors.partitioningBy((n) -> n % 3 == 0));
+		System.out.println("Mapeamento de números ímpares2: " + mapCollect2);
+
+		// toMap
+		Map<Integer, Integer> mapCollect3 = listaInteiros.stream().collect(Collectors.toMap(n -> n, n -> n * 2));
+		System.out.println("Mapeamento de números multiplicados por 2: " + mapCollect3);
+
+		Map<Integer, Double> mapCollect4 = listaInteiros.stream().collect(Collectors.toMap(n -> n, n -> Math.pow(n.doubleValue(), 5)));
+		System.out.println("Mapeamento de números elevado a quinta potência: " + mapCollect4);
 	}
 }
